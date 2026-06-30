@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Hour - Workflow semplice</title>
+  <style>
+    :root{
+      --red:#e53935;
+      --red-dark:#8f1e1c;
+      --blue:#247fa3;
+      --cream:#fff4e8;
+      --paper:#fffbf7;
+      --ink:#2a2f35;
+      --muted:#5f6872;
+      --line:#ead7c4;
+      --white:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--paper);
+      color:var(--ink);
+    }
+    header{
+      padding:34px clamp(18px,4vw,56px) 20px;
+      background:#fff7f0;
+      border-bottom:1px solid var(--line);
+    }
+    .label{
+      margin:0 0 9px;
+      color:var(--red-dark);
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    h1{
+      margin:0;
+      color:#7a1e1e;
+      font-size:clamp(30px,4.6vw,54px);
+      line-height:1.02;
+      letter-spacing:0;
+    }
+    .intro{
+      max-width:900px;
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.55;
+    }
+    main{
+      padding:24px clamp(14px,3vw,42px) 44px;
+    }
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .button{
+      min-height:42px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--white);
+      color:var(--red-dark);
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 8px 24px rgba(229,57,53,.08);
+    }
+    .button.primary{
+      background:var(--red);
+      border-color:var(--red);
+      color:var(--white);
+    }
+    .diagram{
+      width:100%;
+      min-height:560px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--white);
+      padding:18px;
+      box-shadow:0 18px 55px rgba(122,30,30,.08);
+    }
+    .mermaid{
+      min-width:960px;
+      display:flex;
+      justify-content:center;
+    }
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:18px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--white);
+      padding:16px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      color:#7a1e1e;
+      font-size:18px;
+    }
+    .card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    @media (max-width:700px){
+      .intro{font-size:16px}
+      main{padding-inline:10px}
+      .diagram{padding:10px}
+      .mermaid{min-width:880px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="label">Happy Hour - Webapp volontari</p>
+    <h1>Workflow semplice delle pagine</h1>
+    <p class="intro">Vista sintetica per presentare il percorso utente: il volontario accede, vede cosa deve fare, gestisce i turni e mantiene aggiornati comunicazioni, progressi e profilo.</p>
+  </header>
+
+  <main>
+    <nav class="toolbar" aria-label="Collegamenti">
+      <a class="button primary" href="./">Apri webapp</a>
+      <a class="button" href="./workflow.html">Mappa dettagliata</a>
+      <a class="button" href="https://github.com/DCmrkt/happy-hour-client-ready-rosso">Repository GitHub</a>
+    </nav>
+
+    <section class="diagram" aria-label="Workflow Mermaid semplificato">
+      <pre class="mermaid">
+flowchart LR
+  A["Accesso<br/>Email e magic link"] --> B["Home<br/>Prossimi turni, ore e avvisi"]
+
+  B --> C["Turni<br/>Calendario e dettaglio turno"]
+  C --> D{"Disponibile?"}
+  D -->|Si| E["Conferma presenza<br/>Stato aggiornato al referente"]
+  D -->|No| F["Segnala assenza<br/>Motivo e nota"]
+  F --> G["Richiedi scambio<br/>Cerca sostituto compatibile"]
+  G --> H["Approvazione<br/>Sostituto + referente"]
+
+  B --> I["Comunicazioni<br/>Messaggi, urgenze e presa visione"]
+  I --> C
+
+  B --> L["Tempo donato<br/>Ore, storico e correzioni"]
+  L --> M["Badge e attestati<br/>Progressi e PDF"]
+
+  B --> N["Profilo<br/>Anagrafica, disponibilita e documenti"]
+  N --> C
+
+  classDef start fill:#fff4e8,stroke:#e53935,stroke-width:2px,color:#2a2f35;
+  classDef action fill:#ffffff,stroke:#247fa3,stroke-width:1.5px,color:#2a2f35;
+  classDef decision fill:#eaf8fd,stroke:#247fa3,stroke-width:2px,color:#2a2f35;
+  classDef outcome fill:#fff7f0,stroke:#e53935,stroke-width:1.5px,color:#2a2f35;
+
+  class A,B start;
+  class C,F,G,I,L,M,N action;
+  class D decision;
+  class E,H outcome;
+      </pre>
+    </section>
+
+    <section class="summary" aria-label="Sintesi">
+      <article class="card">
+        <h2>Ingresso</h2>
+        <p>Il volontario accede con email e arriva alla home con turni, ore donate e avvisi importanti.</p>
+      </article>
+      <article class="card">
+        <h2>Operativita</h2>
+        <p>Dal turno puo confermare, segnalare assenza o avviare una richiesta di scambio con approvazione.</p>
+      </article>
+      <article class="card">
+        <h2>Relazione</h2>
+        <p>Messaggi, badge, attestati e profilo completano il ciclo di comunicazione con l'organizzazione.</p>
+      </article>
+    </section>
+  </main>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad:true,
+      theme:"base",
+      flowchart:{curve:"basis",htmlLabels:true},
+      themeVariables:{
+        primaryColor:"#fff4e8",
+        primaryTextColor:"#2a2f35",
+        primaryBorderColor:"#e53935",
+        lineColor:"#247fa3",
+        secondaryColor:"#eaf8fd",
+        tertiaryColor:"#ffffff",
+        fontFamily:"ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial"
+      }
+    });
+  </script>
+</body>
+</html>
