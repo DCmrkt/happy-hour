@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Hour - Workflow e mappa funzionale</title>
+  <style>
+    :root{
+      --red:#e53935;
+      --red-dark:#9f1f1d;
+      --blue:#247fa3;
+      --cream:#fff4e8;
+      --paper:#fffbf7;
+      --ink:#2a2f35;
+      --muted:#5f6872;
+      --line:#ead7c4;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--paper);
+      color:var(--ink);
+    }
+    header{
+      padding:34px clamp(18px,4vw,54px) 18px;
+      background:linear-gradient(180deg,#fff7f0 0%,#fffbf7 100%);
+      border-bottom:1px solid var(--line);
+    }
+    .eyebrow{
+      margin:0 0 8px;
+      color:var(--red-dark);
+      font-size:13px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    h1{
+      margin:0;
+      max-width:980px;
+      color:#7a1e1e;
+      font-size:clamp(30px,5vw,58px);
+      line-height:1;
+      letter-spacing:0;
+    }
+    .intro{
+      max-width:980px;
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.55;
+    }
+    main{padding:24px clamp(14px,3vw,42px) 42px}
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      color:var(--red-dark);
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 8px 24px rgba(229,57,53,.08);
+    }
+    .button.primary{
+      background:var(--red);
+      border-color:var(--red);
+      color:#fff;
+    }
+    .diagram-shell{
+      width:100%;
+      min-height:680px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      box-shadow:0 18px 55px rgba(122,30,30,.08);
+      padding:16px;
+    }
+    .mermaid{
+      min-width:1180px;
+      min-height:620px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+    .fallback{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:12px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      padding:16px;
+    }
+    .card h2{
+      margin:0 0 10px;
+      color:#7a1e1e;
+      font-size:18px;
+    }
+    .card ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.55}
+    .note{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    @media (max-width:700px){
+      header{padding-top:24px}
+      .intro{font-size:16px}
+      main{padding-inline:10px}
+      .diagram-shell{padding:8px}
+      .mermaid{min-width:980px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Happy Hour - Webapp volontari</p>
+    <h1>Workflow e mappa mentale delle pagine</h1>
+    <p class="intro">Schema funzionale in italiano della webapp: accesso, home, gestione turni, scambi, ore donate, comunicazioni, traguardi e profilo volontario.</p>
+  </header>
+
+  <main>
+    <nav class="toolbar" aria-label="Collegamenti">
+      <a class="button primary" href="./">Apri webapp</a>
+      <a class="button" href="https://github.com/DCmrkt/happy-hour-client-ready-rosso">Repository GitHub</a>
+    </nav>
+
+    <section class="diagram-shell" aria-label="Mappa mentale Mermaid">
+      <pre class="mermaid">
+mindmap
+  root((Happy Hour Webapp volontari))
+    Accesso
+      "Schermata benvenuta"
+        "Brand Fondazione Aurora"
+        "Email volontario"
+        "Magic link sicuro"
+        "Privacy e dati gestiti dall'organizzazione"
+      "Ingresso in app"
+        "Stato sessione volontario"
+        "Accesso alla home personale"
+    Home
+      "Saluto personale"
+        "Ciao Francesca"
+        "Ringraziamento per il tempo donato"
+      "Indicatori rapidi"
+        "Ore donate quest'anno"
+        "Badge conquistati"
+      "Prossimi impegni"
+        "Info point"
+        "Emporio"
+        "Magazzino"
+        "Turni da confermare"
+      "Azioni rapide"
+        "Vedi prossimo turno"
+        "Leggi messaggio urgente"
+        "Vedi traguardi"
+        "Vedi stato richieste"
+    Turni
+      "Calendario mensile"
+        "Maggio"
+        "Turni confermati"
+        "Turni da confermare"
+      "Dettaglio turno"
+        "Data e orario"
+        "Ruolo e sede"
+        "Descrizione operativa"
+        "Referente del turno"
+        "Email e WhatsApp"
+        "Note operative"
+      "Presenza"
+        "Confermo la presenza"
+        "Ci sarai"
+        "Riepilogo conferma"
+        "Stato aggiornato per il referente"
+      "Assenza"
+        "Non posso partecipare"
+        "Motivo"
+        "Nota facoltativa"
+        "Avviso al referente"
+    "Scambio turno"
+      "Avvio procedura"
+        "Chiedi scambio turno"
+        "Turno da scambiare"
+        "Nota per chi riceve la proposta"
+      "Ricerca sostituti"
+        "Compatibilita per ruolo"
+        "Disponibilita coerenti"
+        "Informazioni minime necessarie"
+      "Proposta"
+        "Proponi a volontario"
+        "Modifica nota"
+        "Richiesta in corso"
+      "Approvazione"
+        "Accettazione o rifiuto del sostituto"
+        "Controllo del referente"
+        "Scambio effettivo solo dopo approvazione"
+        "Annulla richiesta"
+    "Tempo donato"
+      "Riepilogo ore"
+        "36 ore"
+        "9 turni coperti"
+        "Questo mese"
+      "Storico attivita"
+        "Turni validati"
+        "Turni previsti"
+        "Ruoli e sedi"
+      "Correzioni"
+        "Segnala una correzione"
+        "Verifica da parte dell'organizzazione"
+    Comunicazioni
+      "Lista messaggi"
+        "Tutti"
+        "Urgenti"
+        "Info"
+        "Grazie"
+      "Messaggio urgente"
+        "Cambio ingresso evento"
+        "Richiede presa visione"
+        "Ho letto"
+        "Presa visione registrata"
+      "Collegamenti"
+        "Vedi turno collegato"
+        "Informazioni operative"
+    "Badge e attestati"
+      "Progressi"
+        "Accoglienza Silver"
+        "Prossimo livello"
+        "Ore mancanti per Gold"
+      "Badge conquistati"
+        "Primo passo"
+        "Turni confermati"
+        "Messaggi letti"
+        "Dietro le quinte"
+        "Hero in progress"
+      "Attestati"
+        "PDF disponibile"
+        "Dati validati dall'organizzazione"
+        "Scarica attestato"
+        "Attestato generato"
+    "Profilo e documenti"
+      "Anagrafica"
+        "Nome e cognome"
+        "Data di nascita"
+        "Codice fiscale"
+        "Indirizzo CAP e citta"
+      "Contatti"
+        "Cellulare"
+        "Contatto emergenza"
+      "Disponibilita"
+        "Sabato mattina"
+        "Martedi pomeriggio"
+      "Documenti richiesti"
+        "Documento identificativo"
+        "Stato valido"
+        "Richiesta aggiornamento"
+        "Scadenza aggiornamento"
+    Navigazione
+      "Barra inferiore"
+        "Home"
+        "Turni"
+        "Ore"
+        "Messaggi"
+        "Profilo"
+      "Pannello laterale desktop"
+        "Indice schermate"
+        "Indietro"
+        "Avanti"
+      "Esperienza mobile"
+        "Layout a telefono"
+        "Navigazione rapida"
+      </pre>
+    </section>
+
+    <p class="note">La mappa usa Mermaid direttamente nel browser. Se GitHub Pages impiega qualche minuto ad aggiornarsi, ricarica la pagina.</p>
+
+    <section class="fallback" aria-label="Sintesi funzionale">
+      <article class="card">
+        <h2>Pagine principali</h2>
+        <ul>
+          <li>Accesso, Home, Turni, Tempo donato, Comunicazioni, Badge e attestati, Profilo.</li>
+          <li>La navigazione principale replica la barra inferiore dell'app.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Workflow operativi</h2>
+        <ul>
+          <li>Conferma presenza, segnalazione assenza, richiesta di scambio turno.</li>
+          <li>Accettazione del sostituto e approvazione finale del referente.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Dati e documenti</h2>
+        <ul>
+          <li>Ore validate, badge, attestati PDF, anagrafica e documenti richiesti.</li>
+          <li>Stati chiari per conferme, prese visione e richieste pendenti.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad:true,
+      theme:"base",
+      themeVariables:{
+        primaryColor:"#fff4e8",
+        primaryTextColor:"#2a2f35",
+        primaryBorderColor:"#e53935",
+        lineColor:"#247fa3",
+        secondaryColor:"#eaf8fd",
+        tertiaryColor:"#ffffff",
+        fontFamily:"ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial"
+      }
+    });
+  </script>
+</body>
+</html>
