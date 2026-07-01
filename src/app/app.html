@@ -1,14 +1,12 @@
-<main class="app-shell" [class.home-view]="screen === 'home'" aria-label="Happy Hour">
+<main class="app-shell" [class.home-view]="screen === 'home'" [class.login-view]="screen === 'login'" aria-label="Happy Hour">
   <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
 
-  @if (screen === 'home') {
-    <div class="home-blobs" aria-hidden="true">
-      <span class="blob blob-a"></span>
-      <span class="blob blob-b"></span>
-      <span class="blob blob-c"></span>
-      <span class="blob blob-d"></span>
-    </div>
-  }
+  <div class="home-blobs" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+    <span class="blob blob-c"></span>
+    <span class="blob blob-d"></span>
+  </div>
 
   @if (screen !== 'login') {
     <aside class="side-panel" aria-label="Navigazione desktop">

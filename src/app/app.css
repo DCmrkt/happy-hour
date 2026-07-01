@@ -13,8 +13,8 @@
   background: rgba(255, 255, 255, 0.58);
 }
 
-.app-shell.home-view .side-panel,
-.app-shell.home-view .app-main {
+.app-shell.home-view .app-main,
+.app-shell.login-view .app-main {
   position: relative;
   z-index: 1;
 }
@@ -27,8 +27,10 @@
   padding: 28px 20px;
   border-right: 1px solid var(--line);
   border-left: 0;
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
 }
 
 .brand-lockup,
@@ -114,9 +116,11 @@
 
 .app-main {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: transparent;
 }
 
 .app-main.login-mode {
@@ -125,6 +129,9 @@
   max-width: none;
   margin: 0;
   padding: clamp(32px, 6vw, 72px) 20px;
+  position: relative;
+  z-index: 1;
+  background: transparent;
 }
 
 .app-scroll:has(.login-screen) {
@@ -1316,6 +1323,8 @@ button.cal-day {
   padding: 22px;
   border-radius: 30px;
   text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
 }
 
 .login-title {
@@ -1331,6 +1340,7 @@ button.cal-day {
 
 .login-card .btn {
   text-align: center;
+  margin-top: 12px;
 }
 
 .bottom-nav {
