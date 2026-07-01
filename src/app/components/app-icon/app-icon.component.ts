@@ -71,7 +71,7 @@ import { Tone } from '../../happy-hour.data';
 
     :host(.nav.blue) {
       background: var(--cream);
-      color: #9a4f16;
+      color: var(--blue-dark);
     }
 
     svg {
@@ -91,8 +91,8 @@ import { Tone } from '../../happy-hour.data';
     }
 
     :host(.lavender) {
-      --icon-bg: var(--lavender-soft);
-      --icon-color: var(--lavender);
+      --icon-bg: var(--purple-soft);
+      --icon-color: var(--purple);
     }
 
     :host(.mint) {

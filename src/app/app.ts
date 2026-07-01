@@ -16,6 +16,13 @@ export class App {
   showConfirmToast = false;
   messageFilter: MessageFilter = 'all';
 
+  readonly stats = [
+    { icon: '⏱', value: '36h', label: "donate quest'anno", tone: 'blue' as const },
+    { icon: '🏅', value: '6', label: 'badge conquistati', tone: 'purple' as const },
+    { icon: '✓', value: '8', label: 'turni completati', tone: 'green' as const },
+    { icon: '★', value: '120', label: 'punti guadagnati', tone: 'amber' as const },
+  ];
+
   readonly calendarDays = [
     { n: '27', muted: true },
     { n: '28', muted: true },
@@ -160,15 +167,17 @@ export class App {
 
   confirmPresence(): void {
     this.showConfirmToast = true;
-    this.launchConfetti();
-    setTimeout(() => this.go('home'), 1800);
+    requestAnimationFrame(() => {
+      this.launchConfetti();
+    });
+    setTimeout(() => this.go('home'), 2200);
   }
 
   launchConfetti(): void {
-    const layer = this.confettiLayer()?.nativeElement;
-    if (!layer) return;
+    const layer = this.confettiLayer()?.nativeElement ?? document.querySelector('.confetti-layer');
+    if (!(layer instanceof HTMLElement)) return;
     layer.innerHTML = '';
-    const colors = ['#E53935', '#FF6B6B', '#F9C1C1', '#6EC6E8', '#A8E1F2', '#FFF4E8'];
+    const colors = ['#2196F3', '#64B5F6', '#7C4DFF', '#B39DDB', '#4CAF50', '#FFC107', '#FFE082', '#E3F2FD'];
     for (let i = 0; i < 54; i++) {
       const piece = document.createElement('span');
       piece.className = 'confetti-piece';
@@ -180,7 +189,7 @@ export class App {
     }
     setTimeout(() => {
       layer.innerHTML = '';
-    }, 2100);
+    }, 2400);
   }
 
   downloadCertificate(): void {

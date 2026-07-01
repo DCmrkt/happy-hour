@@ -1,6 +1,6 @@
 <main class="app-shell" aria-label="Happy Hour">
+  <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
   <section class="app-main" [class.login-mode]="screen === 'login'" [class.home-view]="screen === 'home'">
-    <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
     <div class="app-scroll">
       @if (screen !== 'login') {
         <header class="app-header">
@@ -67,17 +67,14 @@
               </article>
 
               <div class="metrics">
-              <button class="metric-card" type="button" (click)="go('hours')">
-                <div class="metric-icon">⏱</div>
-                <b>36h</b>
-                <span>donate quest'anno</span>
-              </button>
-              <button class="metric-card" type="button" (click)="go('achievements')">
-                <div class="metric-icon">🏅</div>
-                <b>6</b>
-                <span>badge conquistati</span>
-              </button>
-            </div>
+                @for (stat of stats; track stat.label) {
+                  <button class="metric-card" type="button" (click)="go(stat.tone === 'amber' || stat.tone === 'purple' ? 'achievements' : 'hours')">
+                    <div class="metric-icon" [class]="stat.tone">{{ stat.icon }}</div>
+                    <b>{{ stat.value }}</b>
+                    <span>{{ stat.label }}</span>
+                  </button>
+                }
+              </div>
 
             <article class="calendar-card">
               <div class="calendar-top">
