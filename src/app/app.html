@@ -1,24 +1,4 @@
 <main class="app-shell" aria-label="Happy Hour">
-  @if (screen !== 'login') {
-    <aside class="side-panel" aria-label="Navigazione desktop">
-      <div class="brand-lockup">
-        <img class="brand-mark" src="logo-icon.png" alt="Happy Hour" />
-        <div>
-          <strong>Happy Hour</strong>
-          <span>Fondazione Aurora</span>
-        </div>
-      </div>
-      <nav class="desktop-nav">
-        @for (tab of tabs; track tab.id) {
-          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
-            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
-            <span>{{ tab.label }}</span>
-          </button>
-        }
-      </nav>
-    </aside>
-  }
-
   <section class="app-main" [class.login-mode]="screen === 'login'">
     <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
     <div class="app-scroll">
@@ -791,4 +771,24 @@
       </nav>
     }
   </section>
+
+  @if (screen !== 'login') {
+    <aside class="side-panel" aria-label="Navigazione desktop">
+      <div class="brand-lockup">
+        <img class="brand-mark" src="logo-icon.png" alt="Happy Hour" />
+        <div>
+          <strong>Happy Hour</strong>
+          <span>Fondazione Aurora</span>
+        </div>
+      </div>
+      <nav class="desktop-nav">
+        @for (tab of tabs; track tab.id) {
+          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
+            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    </aside>
+  }
 </main>
