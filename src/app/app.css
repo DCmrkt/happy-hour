@@ -1292,6 +1292,7 @@ button.cal-day {
   background: transparent;
   border: 0;
   box-shadow: none;
+  mix-blend-mode: multiply;
 }
 
 .full-logo strong {
