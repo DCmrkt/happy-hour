@@ -1,35 +1,38 @@
 <main class="app-shell" aria-label="Happy Hour">
-  <section class="side-panel">
-    <div class="brand-lockup">
-      <img class="brand-mark" src="logo-icon.png" alt="" />
-      <div>
-        <strong>Happy Hour</strong>
-        <span>Webapp volontari</span>
+  @if (screen !== 'login') {
+    <aside class="side-panel" aria-label="Navigazione desktop">
+      <div class="brand-lockup">
+        <img class="brand-mark" src="logo-icon.png" alt="" />
+        <div>
+          <strong>Happy Hour</strong>
+          <span>Fondazione Aurora</span>
+        </div>
       </div>
-    </div>
-    <h1>Area volontario completa</h1>
-    <p>
-      Flussi interattivi per turni, ore donate, messaggi, attestati e profilo. Questa versione
-      riprende l'identita rossa, azzurra e crema del prototipo client.
-    </p>
-    <div class="desktop-nav">
-      @for (tab of tabs; track tab.id) {
-        <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
-          <app-icon [name]="tab.icon" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
-          <span>{{ tab.label }}</span>
-        </button>
-      }
-    </div>
-  </section>
+      <nav class="desktop-nav">
+        @for (tab of tabs; track tab.id) {
+          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
+            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    </aside>
+  }
 
-  <section class="phone-frame">
+  <section class="app-main" [class.login-mode]="screen === 'login'">
+    <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
     <div class="app-scroll">
       @if (screen !== 'login') {
         <header class="app-header">
-          <button type="button" class="brand-button" (click)="go('home')" aria-label="Home">
-            <img class="brand-mark small" src="logo-icon.png" alt="" />
-            <span><b>Happy Hour</b><small>Fondazione Aurora</small></span>
-          </button>
+          <div class="app-title">
+            @if (needsBack()) {
+              <button type="button" class="back-btn" (click)="back()" aria-label="Indietro">‹</button>
+            }
+            <button type="button" class="brand-button" (click)="go('home')" aria-label="Home">
+              <img class="brand-mark small" src="logo-icon.png" alt="" />
+              <span><b>Happy Hour</b><small>Fondazione Aurora</small></span>
+            </button>
+          </div>
           <button type="button" class="org-pill" (click)="go('profile')" aria-label="Profilo organizzazione">
             <span>A</span>
             <b>Fondazione Aurora</b>
@@ -39,112 +42,200 @@
 
       @switch (screen) {
         @case ('login') {
-          <section class="screen login">
-            <div class="login-logo">
-              <img class="login-brand-logo" src="logo.png" alt="Happy Hour" />
-              <span>Accedi alla tua area volontario</span>
+          <section class="screen login-screen">
+            <div class="login-inner">
+              <div class="full-logo">
+                <img class="login-brand-logo" src="logo.png" alt="Happy Hour" />
+                <strong>Happy Hour</strong>
+              </div>
+              <article class="login-card card">
+                <h2>Benvenuta</h2>
+                <p class="small">Accedi con la tua email per vedere turni, ore donate e messaggi dell'organizzazione.</p>
+                <label class="label" for="email">Email</label>
+                <input id="email" type="email" value="francesca.rossi@email.it" aria-label="Email" />
+                <button class="btn primary" type="button" (click)="showToast('Link di accesso inviato via email.')">
+                  Ricevi link di accesso
+                </button>
+                <button class="btn secondary" type="button" (click)="go('home')">Accedi</button>
+                <p class="mini">Accesso sicuro via magic link. I tuoi dati restano gestiti dall'organizzazione.</p>
+                @if (toast) {
+                  <p class="toast" [class.good]="toastTone === 'good'" [class.warn]="toastTone === 'warn'">{{ toast }}</p>
+                }
+              </article>
             </div>
-            <label>Email</label>
-            <input type="email" value="francesca.rossi@email.it" aria-label="Email" />
-            <button class="btn primary" type="button" (click)="showToast('Link di accesso inviato via email.')">
-              Ricevi link di accesso
-            </button>
-            <button class="btn secondary" type="button" (click)="go('home')">Accedi alla demo</button>
-            @if (toast) {
-              <p class="toast">{{ toast }}</p>
-            }
+            <p class="mini login-footer">Fondazione Aurora</p>
           </section>
         }
 
         @case ('home') {
           <section class="screen">
-            <div class="hero card">
-              <div class="avatar">🙂</div>
-              <div>
-                <h2>Ciao Francesca</h2>
-                <p>Grazie per il tempo che stai donando.</p>
-              </div>
-            </div>
-
-            <div class="stats">
-              @for (stat of stats; track stat.label) {
-                <article class="stat card">
-                  <app-icon [name]="stat.icon" [tone]="$any(stat.tone)" />
-                  <b>{{ stat.value }}</b>
-                  <span>{{ stat.label }}</span>
-                </article>
-              }
-            </div>
-
-            <article class="card highlight">
-              <div class="card-title">
+            <article class="hero-card">
+              <div class="hello">
+                <div class="avatar">🙂</div>
                 <div>
-                  <h3>Calendario turni</h3>
-                  <span>Maggio, prossimi impegni</span>
+                  <h2>Ciao Francesca</h2>
+                  <p>Grazie per il tempo che stai donando.</p>
+                </div>
+              </div>
+            </article>
+
+            <div class="metrics">
+              <button class="metric-card" type="button" (click)="go('hours')">
+                <div class="metric-icon">⏱</div>
+                <b>36h</b>
+                <span>donate quest'anno</span>
+              </button>
+              <button class="metric-card" type="button" (click)="go('achievements')">
+                <div class="metric-icon">🏅</div>
+                <b>6</b>
+                <span>badge conquistati</span>
+              </button>
+            </div>
+
+            <article class="calendar-card">
+              <div class="calendar-top">
+                <div>
+                  <b>Calendario turni</b>
+                  <span>Maggio · prossimi impegni</span>
                 </div>
                 <button class="small-link" type="button" (click)="go('calendar')">Vedi tutto</button>
               </div>
-              <p><b>Prossimo turno</b><br />18 maggio, 16:00-20:00 · Info point presso Piazza Centrale.</p>
-              <div class="button-row">
-                <button class="btn primary" type="button" (click)="go('shiftDetail')">Apri turno</button>
-                <button class="btn secondary" type="button" (click)="go('calendar')">Calendario</button>
+              <div class="calendar-grid" aria-label="Calendario turni maggio">
+                @for (day of ['L', 'M', 'M', 'G', 'V', 'S', 'D']; track $index) {
+                  <span class="cal-head">{{ day }}</span>
+                }
+                @for (day of calendarDays; track $index) {
+                  <div
+                    class="cal-day"
+                    [class.muted]="day.muted"
+                    [class.today]="day.today"
+                    [class.shift]="day.note"
+                    [class.blue]="day.shift === 'blue'"
+                    [class.green]="day.shift === 'green'"
+                    [class.coral]="day.shift === 'coral'"
+                  >
+                    <span class="num">{{ day.n }}</span>
+                    @if (day.note) {
+                      <span class="label">{{ day.note }}</span>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="legend">
+                <span><i class="dot"></i> Da confermare</span>
+                <span><i class="dot blue"></i> Confermato</span>
+                <span><i class="dot green"></i> Scambio aperto</span>
               </div>
             </article>
 
-            <article class="notice card" (click)="go('messageDetail')" tabindex="0">
-              <app-icon name="megaphone" tone="amber" />
-              <div>
-                <b>Messaggio urgente</b>
-                <span>Brief operativo aggiornato per il turno di sabato.</span>
+            <article class="card soft">
+              <div class="card-title">
+                <div>
+                  <span class="badge coral">Da confermare</span>
+                  <h3>Sabato 18 maggio</h3>
+                </div>
+                <span>9:00–13:00</span>
               </div>
+              <p class="small"><b>Emporio Solidale</b><br />Ruolo: Accoglienza · Referente: Laura Bianchi</p>
+              <button class="btn primary" type="button" (click)="go('shiftDetail')">Vedi prossimo turno</button>
             </article>
 
-            <div class="button-row">
-              <button class="btn secondary" type="button" (click)="go('achievements')">Traguardi</button>
-              <button class="btn secondary" type="button" (click)="go('hours')">Ore donate</button>
-            </div>
+            <article class="card warn">
+              <div class="card-title">
+                <h3>Messaggio urgente</h3>
+                <span class="badge warn">Nuovo</span>
+              </div>
+              <p class="small"><b>Cambio ingresso evento</b><br />Sabato useremo l'ingresso laterale di via Roma.</p>
+              <button class="btn secondary" type="button" (click)="go('messageDetail')">Leggi messaggio</button>
+            </article>
+
+            <article class="card teal">
+              <div class="card-title">
+                <h3>Traguardi e attestati</h3>
+                <span class="badge green">Nuovo badge</span>
+              </div>
+              <p class="small">Hai raggiunto il livello Accoglienza Silver. Puoi vedere i badge e scaricare gli attestati.</p>
+              <button class="btn secondary" type="button" (click)="go('achievements')">Vedi traguardi</button>
+            </article>
+
+            <article class="card teal">
+              <div class="card-title">
+                <h3>Richieste aperte</h3>
+                <span class="badge blue">1 in attesa</span>
+              </div>
+              <p class="small">La richiesta di scambio per il 26 maggio è in attesa di approvazione.</p>
+              <button class="btn secondary" type="button" (click)="go('swapStatus')">Vedi stato</button>
+            </article>
           </section>
         }
 
         @case ('calendar') {
           <section class="screen">
-            <div class="section-head">
+            <div class="screen-head">
               <div>
                 <h2>Calendario turni</h2>
-                <p>Maggio, prossimi impegni</p>
+                <p>Maggio</p>
               </div>
-              <button class="pill" type="button" (click)="go('home')">Home</button>
+              <span class="badge teal">3 turni</span>
             </div>
-            <div class="calendar card">
-              <div class="weekdays">
+
+            <article class="calendar-card">
+              <div class="calendar-top">
+                <div>
+                  <b>I tuoi prossimi turni</b>
+                  <span>Turni confermati e da confermare</span>
+                </div>
+                <span class="badge coral">Maggio</span>
+              </div>
+              <div class="calendar-grid">
                 @for (day of ['L', 'M', 'M', 'G', 'V', 'S', 'D']; track $index) {
-                  <span>{{ day }}</span>
+                  <span class="cal-head">{{ day }}</span>
                 }
-              </div>
-              <div class="days">
                 @for (day of calendarDays; track $index) {
-                  <button
-                    type="button"
-                    [class.muted]="day.muted"
-                    [class.today]="day.today"
-                    [class.shift]="day.note"
-                    [class]="day.tone || ''"
-                    (click)="day.note ? go('shiftDetail') : null"
-                  >
-                    <b>{{ day.n }}</b>
-                    @if (day.note) {
-                      <small>{{ day.note }}</small>
-                    }
-                  </button>
+                  @if (day.today) {
+                    <button
+                      type="button"
+                      class="cal-day shift coral today"
+                      (click)="go('shiftDetail')"
+                    >
+                      <span class="num">{{ day.n }}</span>
+                      <span class="label">{{ day.note }}</span>
+                    </button>
+                  } @else {
+                    <div
+                      class="cal-day"
+                      [class.muted]="day.muted"
+                      [class.shift]="day.note"
+                      [class.blue]="day.shift === 'blue'"
+                      [class.green]="day.shift === 'green'"
+                      [class.coral]="day.shift === 'coral'"
+                    >
+                      <span class="num">{{ day.n }}</span>
+                      @if (day.note) {
+                        <span class="label">{{ day.note }}</span>
+                      }
+                    </div>
+                  }
                 }
               </div>
-            </div>
+              <div class="legend">
+                <span><i class="dot"></i> Da confermare</span>
+                <span><i class="dot blue"></i> Confermato</span>
+                <span><i class="dot green"></i> Scambio aperto</span>
+              </div>
+            </article>
+
             <div class="list">
-              @for (shift of shifts; track shift.day) {
+              @for (shift of upcomingShifts; track shift.day) {
                 <button class="list-item" type="button" (click)="go('shiftDetail')">
-                  <time>{{ shift.day }}</time>
-                  <span><b>{{ shift.title }}</b><small>{{ shift.area }} · {{ shift.hours }}</small></span>
-                  <em>{{ shift.status }}</em>
+                  <div class="list-icon">{{ shift.day }}</div>
+                  <div class="list-main">
+                    <b>{{ shift.title }}</b>
+                    <p>{{ shift.meta }}</p>
+                  </div>
+                  <div class="list-meta">
+                    <span class="badge" [class]="shift.badgeClass">{{ shift.badge }}</span>
+                  </div>
                 </button>
               }
             </div>
@@ -153,209 +244,538 @@
 
         @case ('shiftDetail') {
           <section class="screen">
-            <button class="back" type="button" (click)="go('calendar')">Indietro</button>
-            <article class="card detail">
-              <em>Da confermare</em>
-              <h2>Evento in piazza</h2>
-              <p>Sabato 18 maggio, 16:00-20:00</p>
-              <div class="info-grid">
-                <span><b>Luogo</b>Piazza Centrale 4</span>
-                <span><b>Ruolo</b>Info point</span>
-                <span><b>Referente</b>Marco Bianchi</span>
-                <span><b>Contatto</b>WhatsApp disponibile</span>
+            <div class="screen-head">
+              <div>
+                <h2>Dettaglio turno</h2>
+                <p>Sabato 18 maggio</p>
               </div>
-              <div class="button-row stack">
-                <button class="btn primary" type="button" (click)="go('confirmPresence')">Confermo la presenza</button>
-                <button class="btn secondary" type="button" (click)="go('absence')">Segnala problema</button>
-                <button class="btn secondary" type="button" (click)="go('swapStart')">Chiedi scambio turno</button>
+              <span class="badge coral">Da confermare</span>
+            </div>
+
+            <article class="card soft">
+              <div class="card-title">
+                <h3>Emporio Solidale</h3>
+                <span>9:00–13:00</span>
+              </div>
+              <p class="small">Ti aspettiamo per l'accoglienza delle famiglie e la gestione della fila all'ingresso.</p>
+              <div class="info-grid">
+                <div class="info"><b>Luogo</b>Via Roma 12, Milano</div>
+                <div class="info"><b>Ruolo</b>Accoglienza</div>
+                <div class="info"><b>Data</b>Sabato 18 maggio</div>
+                <div class="info"><b>Stato</b>Da confermare</div>
+              </div>
+              <div class="contact-card">
+                <h3>Referente del turno</h3>
+                <div class="contact-row"><span>👤</span><div><b>Laura Bianchi</b><br />Coordinatrice volontari · Emporio Solidale</div></div>
+                <div class="contact-row"><span>✉️</span><div><b>Mail</b><br />laura.bianchi@fondazioneaurora.it</div></div>
+                <div class="contact-row"><span>💬</span><div><b>WhatsApp</b><br />+39 333 123 4567</div></div>
+                <div class="contact-actions">
+                  <a class="btn small secondary" href="mailto:laura.bianchi@fondazioneaurora.it?subject=Turno%20Emporio%20Solidale%2018%20maggio">Scrivi email</a>
+                  <a class="btn small primary" href="https://wa.me/393331234567?text=Ciao%20Laura%2C%20ti%20scrivo%20per%20il%20turno%20Emporio%20Solidale%20del%2018%20maggio" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
               </div>
             </article>
+
+            <article class="card">
+              <h3>Note operative</h3>
+              <p class="small">Porta il badge volontario. Entra dall'ingresso laterale e chiedi di Laura al banco informazioni.</p>
+            </article>
+
+            <div class="button-row stack">
+              <button class="btn primary" type="button" (click)="go('confirmPresence')">Confermo la presenza</button>
+              <button class="btn ghost" type="button" (click)="go('swapStart')">Chiedi scambio turno</button>
+              <button class="btn danger" type="button" (click)="go('absence')">Non posso partecipare</button>
+            </div>
           </section>
         }
 
         @case ('confirmPresence') {
           <section class="screen">
-            <article class="card center">
-              <app-icon name="check" tone="mint" />
-              <h2>Conferma presenza</h2>
-              <p>Confermi la partecipazione al turno Evento in piazza?</p>
-              <button class="btn primary" type="button" (click)="confirmPresence()">Si, confermo</button>
-              @if (toast) {
-                <p class="toast good">{{ toast }}</p>
-              }
+            <div class="screen-head">
+              <div>
+                <h2>Conferma presenza</h2>
+                <p>Ancora un passaggio</p>
+              </div>
+            </div>
+
+            <article class="hero-card">
+              <div class="hello">
+                <div class="avatar">✅</div>
+                <div>
+                  <h2>Ci sarai?</h2>
+                  <p>Confermiamo il turno di sabato mattina.</p>
+                </div>
+              </div>
             </article>
+
+            <article class="card">
+              <h3>Riepilogo</h3>
+              <p class="small"><b>Emporio Solidale</b><br />Sabato 18 maggio · 9:00–13:00<br />Ruolo: Accoglienza</p>
+            </article>
+
+            @if (showConfirmToast) {
+              <p class="toast good show">Conferma registrata. Il referente vedrà lo stato aggiornato.</p>
+            }
+
+            <button class="btn primary" type="button" (click)="confirmPresence()">Sì, confermo</button>
+            <button class="btn secondary" type="button" (click)="go('shiftDetail')">Controllo i dettagli</button>
           </section>
         }
 
         @case ('absence') {
           <section class="screen">
-            <button class="back" type="button" (click)="go('shiftDetail')">Indietro</button>
-            <article class="card">
-              <h2>Segnala assenza o problema</h2>
-              <label>Motivo</label>
-              <select aria-label="Motivo"><option>Imprevisto personale</option><option>Malattia</option></select>
-              <label>Note</label>
-              <textarea aria-label="Note">Avviso il referente appena possibile.</textarea>
-              <button class="btn primary" type="button" (click)="showToast('Segnalazione inviata al referente.')">
-                Invia segnalazione
-              </button>
-              @if (toast) {
-                <p class="toast">{{ toast }}</p>
-              }
+            <div class="screen-head">
+              <div>
+                <h2>Segnala problema</h2>
+                <p>Avvisiamo il referente</p>
+              </div>
+            </div>
+
+            <article class="card warn">
+              <h3>Non riesci a partecipare?</h3>
+              <p class="small">Raccontaci cosa succede. Se possibile, puoi anche avviare uno scambio turno.</p>
             </article>
+
+            <label class="label">Motivo</label>
+            <select aria-label="Motivo">
+              <option>Imprevisto personale</option>
+              <option>Malattia</option>
+              <option>Problema di trasporto</option>
+              <option>Altro</option>
+            </select>
+            <label class="label">Nota facoltativa</label>
+            <textarea aria-label="Nota">Mi dispiace, ho un imprevisto familiare e non riuscirò a essere presente.</textarea>
+
+            @if (toast) {
+              <p class="toast warn show">{{ toast }}</p>
+            }
+
+            <button class="btn primary" type="button" (click)="showToast('Segnalazione inviata. Laura riceverà un avviso.', 'warn')">
+              Invia segnalazione
+            </button>
+            <button class="btn ghost" type="button" (click)="go('swapStart')">Provo a cercare sostituti</button>
           </section>
         }
 
         @case ('swapStart') {
           <section class="screen">
-            <article class="card">
-              <h2>Scambio turno</h2>
-              <p>Cerchiamo volontari compatibili per ruolo, sede e disponibilita.</p>
-              <div class="chips"><span>Info point</span><span>Piazza Centrale</span><span>Sabato</span></div>
-              <button class="btn primary" type="button" (click)="go('eligibleVolunteers')">Cerca sostituti compatibili</button>
+            <div class="screen-head">
+              <div>
+                <h2>Scambio turno</h2>
+                <p>Procedura guidata</p>
+              </div>
+              <span class="badge blue">Step 1</span>
+            </div>
+
+            <article class="card teal">
+              <h3>Troviamo una sostituzione compatibile</h3>
+              <p class="small">Lo scambio sarà effettivo solo dopo l'accettazione della persona scelta e l'approvazione del referente.</p>
             </article>
+
+            <article class="card">
+              <div class="card-title">
+                <h3>Turno da scambiare</h3>
+                <span>26 maggio</span>
+              </div>
+              <p class="small"><b>Magazzino viveri</b><br />Domenica · 15:00–19:00 · Ruolo: Accoglienza</p>
+            </article>
+
+            <label class="label">Nota per chi riceve la proposta</label>
+            <textarea aria-label="Nota">Ciao, io non riesco a coprire questo turno. Puoi sostituirmi?</textarea>
+            <button class="btn primary" type="button" (click)="go('eligibleVolunteers')">Cerca sostituti compatibili</button>
           </section>
         }
 
         @case ('eligibleVolunteers') {
           <section class="screen">
-            <h2>Volontari compatibili</h2>
-            <div class="list">
-              @for (person of ['Giulia Verdi', 'Paolo Neri', 'Elena Costa']; track person) {
-                <button class="person card" type="button" (click)="showToast('Proposta inviata a ' + person + '.')">
-                  <span class="avatar mini">{{ person[0] }}</span>
-                  <span><b>{{ person }}</b><small>Disponibile · stesso ruolo</small></span>
-                  <em>Proponi</em>
-                </button>
+            <div class="screen-head">
+              <div>
+                <h2>Volontari compatibili</h2>
+                <p>Disponibili o coerenti con il ruolo</p>
+              </div>
+              <span class="badge blue">Step 2</span>
+            </div>
+
+            <div class="mock-banner">Mostriamo solo le informazioni necessarie per la sostituzione.</div>
+
+            <div class="compat">
+              @for (person of volunteers; track person.name) {
+                <div class="person">
+                  <div class="avatar mini">{{ person.avatar }}</div>
+                  <div>
+                    <b>{{ person.name }}</b>
+                    <span>{{ person.meta }}</span>
+                  </div>
+                  <button class="select" type="button" (click)="go('swapStatus')">Proponi</button>
+                </div>
               }
             </div>
-            @if (toast) {
-              <p class="toast">{{ toast }}</p>
-              <button class="btn primary" type="button" (click)="go('swapStatus')">Vedi stato richiesta</button>
-            }
+            <button class="btn secondary" type="button" (click)="go('swapStart')">Modifica nota</button>
           </section>
         }
 
         @case ('swapStatus') {
           <section class="screen">
-            <article class="card">
-              <h2>Stato richiesta scambio</h2>
-              <div class="timeline">
-                <span class="done"><b>Proposta inviata</b><small>Oggi, 10:20</small></span>
-                <span class="current"><b>In attesa sostituto</b><small>Notifica consegnata</small></span>
-                <span><b>Approvazione referente</b><small>Passaggio successivo</small></span>
+            <div class="screen-head">
+              <div>
+                <h2>Stato scambio</h2>
+                <p>Richiesta in corso</p>
               </div>
-              <button class="btn primary" type="button" (click)="go('home')">Torna alla home</button>
+              <span class="badge warn">In attesa</span>
+            </div>
+
+            <article class="card soft">
+              <h3>Scambio proposto a Marco L.</h3>
+              <p class="small">Ti aggiorneremo quando Marco risponde e quando Laura approva la sostituzione.</p>
             </article>
+
+            <div class="timeline">
+              <div class="tstep done"><b>Richiesta creata</b><span>Oggi, 10:14</span></div>
+              <div class="tstep done"><b>Proposta inviata</b><span>A Marco L.</span></div>
+              <div class="tstep current"><b>In attesa del sostituto</b><span>Marco può accettare o rifiutare.</span></div>
+              <div class="tstep"><b>Approvazione referente</b><span>Laura controllerà la sostituzione.</span></div>
+              <div class="tstep"><b>Turno aggiornato</b><span>Solo dopo approvazione.</span></div>
+            </div>
+
+            <button class="btn primary" type="button" (click)="go('home')">Torna alla home</button>
+            <button class="btn secondary" type="button">Annulla richiesta</button>
           </section>
         }
 
         @case ('hours') {
           <section class="screen">
-            <div class="section-head">
-              <div><h2>Ore donate</h2><p>36 ore validate nel 2026</p></div>
-              <button class="pill" type="button" (click)="go('achievements')">Attestati</button>
+            <div class="screen-head">
+              <div>
+                <h2>Le tue ore</h2>
+                <p>Tempo donato</p>
+              </div>
             </div>
-            <article class="card">
-              <div class="progress"><span style="width: 72%"></span></div>
-              <p>Mancano 14 ore al prossimo traguardo.</p>
+
+            <article class="hero-card">
+              <div class="hello">
+                <div class="avatar">⏱</div>
+                <div>
+                  <h2>36 ore</h2>
+                  <p>Grazie: quest'anno hai coperto 9 turni.</p>
+                </div>
+              </div>
             </article>
+
+            <article class="card teal">
+              <div class="card-title">
+                <h3>Questo mese</h3>
+                <b class="big-num">8h</b>
+              </div>
+              <div class="progress"><span style="width: 64%"></span></div>
+              <p class="mini">2 turni svolti · 1 turno previsto</p>
+            </article>
+
             <div class="list">
-              @for (shift of shifts; track shift.day) {
+              @for (shift of hourShifts; track shift.day) {
                 <div class="list-item">
-                  <time>{{ shift.day }}</time>
-                  <span><b>{{ shift.title }}</b><small>{{ shift.status }}</small></span>
-                  <em>4h</em>
+                  <div class="list-icon">{{ shift.day }}</div>
+                  <div class="list-main">
+                    <b>{{ shift.title }}</b>
+                    <p>{{ shift.meta }}</p>
+                  </div>
+                  <div class="list-meta">
+                    <span>{{ shift.hours }}</span>
+                    <span class="badge" [class]="shift.badgeClass">{{ shift.badge }}</span>
+                  </div>
                 </div>
               }
             </div>
+
+            <button class="btn primary" type="button" (click)="go('achievements')">Vedi traguardi e attestati</button>
             <button class="btn secondary" type="button" (click)="showToast('Richiesta di correzione aperta.')">Segnala una correzione</button>
-            @if (toast) {
-              <p class="toast">{{ toast }}</p>
-            }
           </section>
         }
 
         @case ('messages') {
           <section class="screen">
-            <h2>Messaggi</h2>
+            <div class="screen-head">
+              <div>
+                <h2>Messaggi</h2>
+                <p>Comunicazioni dall'organizzazione</p>
+              </div>
+              <span class="badge coral">2 nuovi</span>
+            </div>
+
+            <div class="segmented">
+              <button type="button" [class.active]="messageFilter === 'all'" (click)="messageFilter = 'all'">Tutti</button>
+              <button type="button" [class.active]="messageFilter === 'urgent'" (click)="messageFilter = 'urgent'">Urgenti</button>
+              <button type="button" [class.active]="messageFilter === 'info'" (click)="messageFilter = 'info'">Info</button>
+              <button type="button" [class.active]="messageFilter === 'thanks'" (click)="messageFilter = 'thanks'">Grazie</button>
+            </div>
+
             <div class="list">
-              <button class="list-item unread" type="button" (click)="go('messageDetail')">
-                <app-icon name="megaphone" tone="amber" />
-                <span><b>Brief operativo aggiornato</b><small>Urgente · oggi</small></span>
-                <em>Apri</em>
+              <button class="list-item" type="button" (click)="go('messageDetail')">
+                <div class="list-icon warn">!</div>
+                <div class="list-main">
+                  <b>Cambio ingresso evento</b>
+                  <p>Sabato useremo l'ingresso laterale di via Roma.</p>
+                </div>
+                <div class="list-meta">
+                  <span>Oggi</span>
+                  <span class="badge warn">Urgente</span>
+                </div>
               </button>
-              <button class="list-item" type="button">
-                <app-icon name="star" tone="mint" />
-                <span><b>Grazie per il turno svolto</b><small>Letto</small></span>
-              </button>
+              <div class="list-item">
+                <div class="list-icon blue">i</div>
+                <div class="list-main">
+                  <b>Nuovo orario magazzino</b>
+                  <p>Da giugno cambiano gli orari del turno serale.</p>
+                </div>
+                <div class="list-meta">
+                  <span>Ieri</span>
+                  <span class="badge blue">Info</span>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="list-icon green">♥</div>
+                <div class="list-main">
+                  <b>Grazie per aprile</b>
+                  <p>Insieme abbiamo garantito 42 turni.</p>
+                </div>
+                <div class="list-meta">
+                  <span>2 mag</span>
+                  <span class="badge green">Letto</span>
+                </div>
+              </div>
             </div>
           </section>
         }
 
         @case ('messageDetail') {
           <section class="screen">
-            <button class="back" type="button" (click)="go('messages')">Indietro</button>
-            <article class="card">
-              <em>Urgente</em>
-              <h2>Brief operativo aggiornato</h2>
-              <p>Per il turno di sabato usa l'ingresso laterale e presentati 10 minuti prima al referente.</p>
-              <button class="btn primary" type="button" (click)="showToast('Presa visione registrata.')">Ho letto</button>
-              @if (toast) {
-                <p class="toast good">{{ toast }}</p>
-              }
+            <div class="screen-head">
+              <div>
+                <h2>Messaggio urgente</h2>
+                <p>Richiede presa visione</p>
+              </div>
+              <span class="badge warn">Urgente</span>
+            </div>
+
+            <article class="card warn">
+              <h3>Cambio ingresso evento</h3>
+              <p class="small">Ciao Francesca, sabato useremo l'ingresso laterale di via Roma 12. Troverai Laura al banco informazioni: ti consegnerà il materiale per l'accoglienza.</p>
+              <p class="small">Grazie per esserci.</p>
             </article>
+
+            <div class="info-grid">
+              <div class="info"><b>Riferimento</b>Emporio Solidale</div>
+              <div class="info"><b>Quando</b>18 maggio</div>
+            </div>
+
+            @if (toast) {
+              <p class="toast good show">{{ toast }}</p>
+            }
+
+            <button class="btn primary" type="button" (click)="showToast('Presa visione registrata.', 'good')">Ho letto</button>
+            <button class="btn secondary" type="button" (click)="go('shiftDetail')">Vedi turno collegato</button>
           </section>
         }
 
         @case ('achievements') {
           <section class="screen">
-            <h2>Traguardi e attestati</h2>
-            <article class="card achievement">
-              <app-icon name="medal" tone="lavender" />
-              <h3>Livello Silver</h3>
-              <p>8 turni completati, 36 ore validate.</p>
-              <button class="btn primary" type="button" (click)="downloadCertificate()">Scarica attestato</button>
+            <div class="screen-head">
+              <div>
+                <h2>Traguardi</h2>
+                <p>Badge e attestati</p>
+              </div>
+              <span class="badge green">Silver</span>
+            </div>
+
+            <article class="hero-card">
+              <div class="hello">
+                <div class="avatar">🏅</div>
+                <div>
+                  <h2>Accoglienza Silver</h2>
+                  <p>Hai coperto 9 turni e donato 36 ore quest'anno.</p>
+                </div>
+              </div>
             </article>
-            @if (toast) {
-              <p class="toast">{{ toast }}</p>
-            }
+
+            <article class="card teal">
+              <div class="card-title">
+                <h3>Prossimo livello</h3>
+                <b class="big-num">72%</b>
+              </div>
+              <div class="progress"><span style="width: 72%"></span></div>
+              <p class="mini">Ti mancano 14 ore per raggiungere Accoglienza Gold.</p>
+            </article>
+
+            <article class="card">
+              <h3>Badge conquistati</h3>
+              <p class="mini">Naming più emozionale, con descrizione chiara del comportamento valorizzato.</p>
+              <div class="badge-wall">
+                @for (badge of badges; track badge.title) {
+                  <div class="reward">
+                    <div class="medal">{{ badge.emoji }}</div>
+                    <b>{{ badge.title }}</b>
+                    <span>{{ badge.subtitle }}</span>
+                  </div>
+                }
+              </div>
+            </article>
+
+            <article class="card warn">
+              <h3>Attestati disponibili</h3>
+              <div class="certificate">
+                <div class="doc-icon">PDF</div>
+                <div>
+                  <b>Attestato partecipazione 2026</b>
+                  <span>36 ore · 9 turni · generato da Fondazione Aurora</span>
+                </div>
+              </div>
+              <button class="btn primary" type="button" (click)="downloadCertificate()">Scarica attestato</button>
+              <p class="mini">Il PDF viene generato dai dati validati dall'organizzazione.</p>
+              @if (toast) {
+                <p class="toast good show">{{ toast }}</p>
+              }
+            </article>
           </section>
         }
 
         @case ('profile') {
           <section class="screen">
-            <h2>Profilo</h2>
-            <article class="card">
-              <label>Nome</label>
-              <input value="Francesca Rossi" aria-label="Nome" />
-              <label>Telefono</label>
-              <input value="+39 333 1234567" aria-label="Telefono" />
-              <label>Disponibilita</label>
-              <div class="chips"><span>Sabato</span><span>Pomeriggio</span><span>Eventi</span></div>
-              <button class="btn primary" type="button" (click)="showToast('Profilo salvato.')">Salva anagrafica e preferenze</button>
-              <button class="btn secondary" type="button" (click)="go('uploadDocument')">Carica documento</button>
-              @if (toast) {
-                <p class="toast good">{{ toast }}</p>
-              }
+            <div class="screen-head">
+              <div>
+                <h2>Profilo</h2>
+                <p>Anagrafica, contatti e documenti</p>
+              </div>
+              <span class="badge teal">Completo</span>
+            </div>
+
+            <article class="card soft">
+              <div class="hello">
+                <div class="avatar">🙂</div>
+                <div>
+                  <h2 class="profile-name">Francesca Rossi</h2>
+                  <p>Volontaria · Milano Est · Accoglienza</p>
+                </div>
+              </div>
             </article>
+
+            <article class="card">
+              <h3>Anagrafica personale</h3>
+              <p class="mini">I dati identificativi sono mostrati per trasparenza. Indirizzo e contatti sono modificabili dal volontario.</p>
+              <div class="form-grid">
+                <div class="input-group"><label class="label">Nome</label><input value="Francesca" aria-label="Nome" /></div>
+                <div class="input-group"><label class="label">Cognome</label><input value="Rossi" aria-label="Cognome" /></div>
+                <div class="input-group"><label class="label">Data di nascita</label><input value="14/09/1985" aria-label="Data di nascita" /></div>
+                <div class="input-group"><label class="label">Codice fiscale</label><input value="RSSFNC85P54F205X" disabled aria-label="Codice fiscale" /></div>
+                <div class="input-group full"><label class="label">Indirizzo</label><input value="Via delle Magnolie 8" aria-label="Indirizzo" /></div>
+                <div class="input-group"><label class="label">CAP</label><input value="20132" aria-label="CAP" /></div>
+                <div class="input-group"><label class="label">Città</label><input value="Milano" aria-label="Città" /></div>
+                <div class="input-group full"><label class="label">Email</label><input value="francesca.rossi@email.it" aria-label="Email profilo" /></div>
+                <div class="input-group"><label class="label">Cellulare</label><input value="+39 347 555 0198" aria-label="Cellulare" /></div>
+                <div class="input-group"><label class="label">WhatsApp</label><input value="+39 347 555 0198" aria-label="WhatsApp" /></div>
+                <div class="input-group full"><label class="label">Contatto emergenza</label><input value="Marco Rossi · +39 333 987 6543" aria-label="Contatto emergenza" /></div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Disponibilità ricorrenti</h3>
+              <div class="avail-days">
+                @for (day of availabilityDays; track $index) {
+                  <div class="avail-day" [class.on]="day.on" [class.coral]="day.coral">{{ day.label }}</div>
+                }
+              </div>
+              <p class="mini">Preferenza: sabato mattina, martedì pomeriggio.</p>
+            </article>
+
+            <article class="card warn">
+              <div class="card-title">
+                <div>
+                  <h3>Documenti richiesti</h3>
+                  <p class="mini">L'organizzazione può chiederti documenti aggiornati quando servono per attività, sicurezza o autorizzazioni.</p>
+                </div>
+                <span class="badge warn">1 da aggiornare</span>
+              </div>
+              <div class="list">
+                <div class="list-item">
+                  <div class="list-icon">ID</div>
+                  <div class="list-main">
+                    <b>Documento d'identità</b>
+                    <p>Caricato il 12/03/2026 · valido fino al 12/03/2031</p>
+                  </div>
+                  <div class="list-meta"><span class="badge green">Valido</span></div>
+                </div>
+                <button class="list-item" type="button" (click)="go('uploadDocument')">
+                  <div class="list-icon">↑</div>
+                  <div class="list-main">
+                    <b>Attestato sicurezza</b>
+                    <p>Richiesto aggiornamento entro il 30/06/2026</p>
+                  </div>
+                  <div class="list-meta"><span class="badge warn">Da caricare</span></div>
+                </button>
+              </div>
+              <button class="btn secondary" type="button" (click)="go('uploadDocument')">Carica documento</button>
+            </article>
+
+            <article class="card teal">
+              <div class="card-title">
+                <h3>Gamification e attestati</h3>
+                <span class="badge green">6 badge</span>
+              </div>
+              <p class="small">Visualizza badge, livello volontario e attestati scaricabili.</p>
+              <button class="btn secondary" type="button" (click)="go('achievements')">Vai ai traguardi</button>
+            </article>
+
+            <label class="label">Canale preferito</label>
+            <select aria-label="Canale preferito"><option>Email</option><option>WhatsApp</option><option>SMS</option></select>
+            <label class="label">Interessi</label>
+            <input value="Accoglienza, eventi, logistica leggera" aria-label="Interessi" />
+
+            @if (toast) {
+              <p class="toast good show">{{ toast }}</p>
+            }
+            <button class="btn teal" type="button" (click)="showToast('Anagrafica, contatti e preferenze salvati e sincronizzati.', 'good')">
+              Salva anagrafica e preferenze
+            </button>
           </section>
         }
 
         @case ('uploadDocument') {
           <section class="screen">
-            <button class="back" type="button" (click)="go('profile')">Indietro</button>
-            <article class="card">
-              <h2>Carica documenti</h2>
-              <p>Documento identita richiesto. Stato attuale: da aggiornare.</p>
-              <label>Tipo documento</label>
-              <select aria-label="Tipo documento"><option>Documento identita</option><option>Patente</option></select>
-              <input type="file" aria-label="File documento" />
-              <button class="btn primary" type="button" (click)="showToast('Documento caricato e inviato in verifica.')">Carica e invia</button>
-              @if (toast) {
-                <p class="toast good">{{ toast }}</p>
-              }
+            <div class="screen-head">
+              <div>
+                <h2>Carica documento</h2>
+                <p>Profilo personale</p>
+              </div>
+              <span class="badge warn">Richiesto</span>
+            </div>
+
+            <article class="card soft">
+              <h3>Attestato sicurezza</h3>
+              <p class="small">Ciao Francesca, per partecipare ad alcune attività serve l'attestato aggiornato. Carica qui il file: lo staff lo verificherà e ti avviserà quando sarà approvato.</p>
+              <div class="info-grid">
+                <div class="info"><b>Scadenza richiesta</b>30 giugno 2026</div>
+                <div class="info"><b>Formato</b>PDF, JPG o PNG</div>
+              </div>
             </article>
+
+            <article class="card">
+              <label class="label">Tipo documento</label>
+              <select aria-label="Tipo documento">
+                <option>Attestato sicurezza</option>
+                <option>Documento d'identità</option>
+                <option>Certificato medico</option>
+                <option>Autorizzazione</option>
+              </select>
+              <label class="label">Seleziona file</label>
+              <input type="file" aria-label="File documento" />
+              <label class="label">Nota per lo staff, facoltativa</label>
+              <textarea aria-label="Nota staff"></textarea>
+              <p class="mini">Il documento sarà visibile solo agli operatori autorizzati. In Happy Hour vedrai lo stato: caricato, in verifica, approvato o da integrare.</p>
+            </article>
+
+            @if (toast) {
+              <p class="toast good show">{{ toast }}</p>
+            }
+            <button class="btn primary" type="button" (click)="showToast('Documento caricato. Stato: in verifica.', 'good')">Carica e invia</button>
+            <button class="btn secondary" type="button" (click)="go('profile')">Torna al profilo</button>
           </section>
         }
       }
@@ -365,7 +785,7 @@
       <nav class="bottom-nav" aria-label="Navigazione principale">
         @for (tab of tabs; track tab.id) {
           <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
-            <app-icon [name]="tab.icon" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
             <span>{{ tab.label }}</span>
           </button>
         }
