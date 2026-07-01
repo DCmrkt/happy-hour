@@ -1,0 +1,27 @@
+.phone-shell {
+  width: min(100%, 460px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 24px 18px 94px;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(147, 211, 255, 0.32), transparent 26%),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 48%, #ffffff 100%);
+  box-shadow: 0 24px 80px rgba(29, 66, 124, 0.13);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 430px) {
+  .phone-shell {
+    padding-inline: 14px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}

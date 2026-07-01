@@ -1,0 +1,9 @@
+<section class="stats" aria-label="Statistiche volontario">
+  @for (stat of stats; track stat.label) {
+    <article class="stat card" [class]="stat.tone">
+      <app-icon [name]="stat.icon" [tone]="stat.tone" />
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </article>
+  }
+</section>

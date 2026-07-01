@@ -1,0 +1,21 @@
+<section class="shifts card">
+  <h2 class="section-title">Prossimi turni</h2>
+
+  <div class="list">
+    @for (shift of shifts; track shift.day) {
+      <article>
+        <time>{{ shift.day }}</time>
+        <div>
+          <strong>{{ shift.title }}</strong>
+          <span>{{ shift.area }}</span>
+        </div>
+        <aside>
+          <b>{{ shift.hours }}</b>
+          <em>{{ shift.status }}</em>
+        </aside>
+      </article>
+    }
+  </div>
+
+  <button type="button">Vedi tutti i turni <span>→</span></button>
+</section>

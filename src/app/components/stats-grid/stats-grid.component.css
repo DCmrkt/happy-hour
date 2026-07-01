@@ -1,0 +1,48 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.stat {
+  min-height: 96px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+strong {
+  color: var(--tone, var(--blue));
+  font-size: 20px;
+  line-height: 1;
+}
+
+span {
+  max-width: 76px;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.lavender {
+  --tone: var(--lavender);
+}
+
+.mint {
+  --tone: var(--mint);
+}
+
+.amber {
+  --tone: var(--amber);
+}
+
+@media (max-width: 360px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

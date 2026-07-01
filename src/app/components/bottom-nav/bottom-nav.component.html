@@ -1,0 +1,10 @@
+<nav class="bottom card" aria-label="Navigazione principale">
+  @for (item of items; track item.label) {
+    <button type="button" [class.active]="item.active" [attr.aria-label]="item.label">
+      <app-icon [name]="item.icon" [tone]="item.active ? 'blue' : 'lavender'" />
+      @if (item.label === 'Badge') {
+        <i>2</i>
+      }
+    </button>
+  }
+</nav>

@@ -1,3 +1,13 @@
-# Happy Hour client ready rosso
+# Happy Hour
 
-Static HTML publication for the Happy Hour client-ready red version.
+Angular volunteer dashboard for Fondazione Aurora.
+
+The previous static red publication is preserved in `rosso/`.
+
+## Commands
+
+```bash
+npm install
+npm start
+npm run build
+```

@@ -1,0 +1,32 @@
+<section class="calendar card">
+  <div class="topline">
+    <div>
+      <h2 class="section-title">Calendario turni</h2>
+      <span class="muted">Maggio · prossimi impegni</span>
+    </div>
+    <button type="button">Vedi tutto</button>
+  </div>
+
+  <div class="weekdays">
+    @for (day of weekdays; track day + $index) {
+      <span>{{ day }}</span>
+    }
+  </div>
+
+  <div class="grid">
+    @for (day of days; track $index) {
+      <span class="day" [class]="day.state">
+        <b>{{ day.label }}</b>
+        @if (day.note) {
+          <small>{{ day.note }}</small>
+        }
+      </span>
+    }
+  </div>
+
+  <footer>
+    <span><i class="blue"></i>Da confermare</span>
+    <span><i class="violet"></i>Confermato</span>
+    <span><i></i>Scambio aperto</span>
+  </footer>
+</section>

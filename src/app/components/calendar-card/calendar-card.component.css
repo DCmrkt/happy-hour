@@ -1,0 +1,107 @@
+.calendar {
+  padding: 14px 12px;
+}
+
+.topline,
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.topline span {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+button {
+  padding: 8px 10px;
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  background: white;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.weekdays,
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.weekdays {
+  margin: 12px 0 6px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.day {
+  min-height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.day small {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--blue);
+  font-size: 6px;
+  font-weight: 900;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.soft {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.selected {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.confirmed {
+  background: var(--lavender-soft);
+  color: var(--lavender);
+}
+
+footer {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+i {
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #b9dcff;
+}
+
+.blue {
+  background: var(--blue);
+}
+
+.violet {
+  background: var(--lavender);
+}
