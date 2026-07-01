@@ -13,10 +13,11 @@
   position: sticky;
   top: 28px;
   align-self: start;
-  padding: 24px;
+  padding: 22px;
   border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.82);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
 }
 
@@ -34,20 +35,20 @@
 }
 
 .brand-lockup {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 8px 18px rgba(243, 80, 55, 0.16));
 }
 
 .brand-mark.small {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
 }
 
 .login-brand-logo {
@@ -65,19 +66,25 @@ p {
 }
 
 h1 {
-  color: var(--ink);
-  font-size: 34px;
+  color: var(--coral-dark);
+  font-size: 32px;
   line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 h2 {
   margin-bottom: 8px;
-  font-size: 24px;
+  color: var(--coral-dark);
+  font-size: 25px;
+  line-height: 1.08;
   letter-spacing: 0;
 }
 
 h3 {
   margin-bottom: 6px;
+  color: var(--coral-dark);
+  font-size: 18px;
+  line-height: 1.15;
 }
 
 p,
@@ -125,6 +132,7 @@ button {
   align-items: center;
   gap: 10px;
   padding: 10px;
+  border: 1px solid var(--line);
   border-radius: 16px;
   background: white;
   color: var(--ink);
@@ -132,18 +140,19 @@ button {
 }
 
 .desktop-nav button.active {
-  background: var(--blue-soft);
-  color: var(--blue);
+  background: linear-gradient(145deg, #fff0f0, white);
+  color: var(--coral-dark);
+  border-color: #f8caca;
 }
 
 .phone-frame {
   position: relative;
   min-height: calc(100vh - 56px);
   overflow: visible;
-  border: 1px solid rgba(32, 162, 255, 0.16);
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
-  box-shadow: 0 24px 70px rgba(23, 33, 58, 0.12);
+  border: 1px solid rgba(229, 57, 53, 0.12);
+  border-radius: 28px;
+  background: linear-gradient(180deg, var(--cream-2) 0%, #ffffff 100%);
+  box-shadow: 0 24px 70px rgba(229, 57, 53, 0.1);
 }
 
 .app-scroll {
@@ -158,7 +167,8 @@ button {
 
 .app-header {
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
+  gap: 16px;
 }
 
 .brand-button {
@@ -175,14 +185,50 @@ button {
   display: block;
 }
 
+.brand-button b,
+.brand-lockup strong {
+  color: var(--coral-dark);
+  font-size: 17px;
+  line-height: 1.05;
+}
+
+.brand-button small,
+.brand-lockup span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .pill,
-.back {
+.back,
+.small-link,
+.org-pill {
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 8px 11px;
+  padding: 9px 12px;
   background: white;
-  color: var(--blue);
+  color: var(--coral-dark);
   font-size: 12px;
+  font-weight: 900;
+}
+
+.org-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(229, 57, 53, 0.08);
+}
+
+.org-pill span {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #b9eaf7;
+  color: white;
+  font-size: 13px;
   font-weight: 900;
 }
 
@@ -216,26 +262,58 @@ button {
 }
 
 .card {
-  padding: 18px;
-  margin-bottom: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
 .hero {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px;
-  background: linear-gradient(145deg, var(--blue-soft), white 70%);
+  gap: 16px;
+  min-height: 116px;
+  padding: 22px 24px;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--cream), white 72%);
+  border-color: #ffe3cb;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -42px;
+  right: -34px;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  background: rgba(229, 57, 53, 0.08);
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h2 {
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.hero p {
+  margin-bottom: 0;
+  font-size: 15px;
 }
 
 .avatar {
-  width: 56px;
-  height: 56px;
+  width: 66px;
+  height: 66px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
-  background: white;
-  color: var(--blue);
+  border-radius: 24px;
+  background: #fff4e8;
+  border: 1px solid #ffcaca;
+  color: var(--coral);
+  font-size: 25px;
   font-weight: 900;
   box-shadow: var(--shadow);
 }
@@ -248,31 +326,33 @@ button {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .stat {
-  min-height: 112px;
+  min-height: 132px;
   display: grid;
   justify-items: center;
   align-content: center;
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
 
 .stat b {
-  color: var(--blue);
-  font-size: 19px;
+  color: var(--coral-dark);
+  font-size: 28px;
+  line-height: 1;
 }
 
 .stat span {
-  font-size: 10px;
-  font-weight: 800;
+  color: #34405a;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .highlight {
-  background: linear-gradient(145deg, white, #f2f9ff);
+  background: linear-gradient(145deg, white, #fff8f0);
 }
 
 .card-title {
@@ -282,8 +362,8 @@ button {
 em {
   border-radius: 999px;
   padding: 5px 8px;
-  background: var(--blue-soft);
-  color: var(--blue);
+  background: var(--cream);
+  color: var(--coral-dark);
   font-size: 10px;
   font-style: normal;
   font-weight: 900;
@@ -303,22 +383,22 @@ em {
 
 .btn {
   width: 100%;
-  min-height: 44px;
-  border-radius: 14px;
-  padding: 11px 14px;
-  font-weight: 900;
+  min-height: 46px;
+  border-radius: 18px;
+  padding: 12px 14px;
+  font-weight: 800;
 }
 
 .btn.primary {
-  background: var(--blue);
+  background: var(--coral-dark);
   color: white;
-  box-shadow: 0 10px 22px rgba(32, 162, 255, 0.24);
+  box-shadow: 0 10px 22px rgba(198, 40, 40, 0.18);
 }
 
 .btn.secondary {
   border: 1px solid var(--line);
   background: white;
-  color: var(--blue);
+  color: var(--coral-dark);
 }
 
 .notice {
@@ -362,7 +442,7 @@ em {
 .days button {
   min-height: 46px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   background: white;
   color: var(--ink);
   font-size: 11px;
@@ -372,18 +452,18 @@ em {
 .days button small {
   display: block;
   overflow: hidden;
-  color: var(--blue);
+  color: var(--coral-dark);
   font-size: 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .days .shift {
-  background: var(--blue-soft);
+  background: var(--cream);
 }
 
 .days .today {
-  box-shadow: inset 0 0 0 2px var(--blue);
+  box-shadow: inset 0 0 0 2px var(--coral);
 }
 
 .days .muted {
@@ -399,7 +479,7 @@ em {
   width: 100%;
   justify-content: space-between;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 12px;
   background: white;
   color: var(--ink);
@@ -411,9 +491,9 @@ time {
   height: 38px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: var(--blue-soft);
-  color: var(--blue);
+  border-radius: 14px;
+  background: var(--cream);
+  color: var(--coral-dark);
   font-weight: 900;
 }
 
@@ -431,8 +511,8 @@ time {
 .info-grid span {
   padding: 10px;
   border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fbfdff;
+  border-radius: 16px;
+  background: #fff8f0;
   color: var(--muted);
   font-size: 12px;
 }
@@ -460,8 +540,8 @@ time {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 7px 10px;
-  background: var(--blue-soft);
-  color: var(--blue);
+  background: var(--cream);
+  color: var(--coral-dark);
   font-size: 12px;
   font-weight: 800;
 }
@@ -482,7 +562,7 @@ time {
 }
 
 .timeline .current {
-  border-color: var(--blue);
+  border-color: var(--coral);
 }
 
 .progress {
@@ -496,7 +576,7 @@ time {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--blue), var(--mint));
+  background: linear-gradient(90deg, var(--blue), #6ec6e8);
 }
 
 .achievement {
@@ -532,7 +612,7 @@ time {
   border: 1px solid var(--line);
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 -12px 30px rgba(23, 33, 58, 0.08);
+  box-shadow: 0 -12px 30px rgba(229, 57, 53, 0.08);
 }
 
 .bottom-nav button {
@@ -548,8 +628,8 @@ time {
 }
 
 .bottom-nav button.active {
-  background: var(--blue-soft);
-  color: var(--blue);
+  background: var(--cream);
+  color: var(--coral-dark);
 }
 
 .bottom-nav app-icon {
@@ -577,7 +657,7 @@ time {
 
   .app-scroll {
     overflow: auto;
-    padding: 16px 16px 98px;
+    padding: 20px 18px 98px;
   }
 
   .bottom-nav {
@@ -585,8 +665,53 @@ time {
   }
 }
 
+@media (max-width: 520px) {
+  .app-header {
+    gap: 10px;
+  }
+
+  .brand-button {
+    gap: 9px;
+  }
+
+  .brand-button b {
+    font-size: 16px;
+  }
+
+  .brand-button small {
+    font-size: 12px;
+  }
+
+  .brand-mark.small {
+    width: 40px;
+    height: 40px;
+  }
+
+  .org-pill {
+    padding: 7px 9px;
+  }
+
+  .org-pill b {
+    max-width: 118px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hero {
+    min-height: 114px;
+    padding: 20px 22px;
+  }
+
+  .hero h2 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+
 @media (max-width: 390px) {
-  .stats,
   .info-grid {
     grid-template-columns: 1fr 1fr;
   }

@@ -3,22 +3,22 @@ import { Tone } from '../../happy-hour.data';
 
 @Component({
   selector: 'app-icon',
-  template: '<span class="glyph">{{ glyphs()[name()] }}</span>',
+  template: '<span class="glyph" [innerHTML]="glyphs()[name()]"></span>',
   styles: `
     :host {
-      width: 34px;
-      height: 34px;
+      width: 38px;
+      height: 38px;
       display: grid;
       place-items: center;
-      border-radius: 50%;
+      border-radius: 14px;
       background: var(--icon-bg, var(--blue-soft));
       color: var(--icon-color, var(--blue));
       font-weight: 900;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72);
     }
 
     .glyph {
-      font-size: 17px;
+      font-size: 18px;
       line-height: 1;
     }
 
@@ -45,12 +45,12 @@ export class AppIconComponent {
   readonly name = input.required<string>();
   readonly tone = input<Tone>('blue');
   readonly glyphs = input<Record<string, string>>({
-    timer: '◷',
-    medal: '◇',
-    check: '✓',
-    star: '★',
-    calendar: '□',
-    megaphone: '↗',
-    profile: '○',
+    timer: '&#9201;',
+    medal: '&#127941;',
+    check: '&#10003;',
+    star: '&#9733;',
+    calendar: '&#128197;',
+    megaphone: '&#128226;',
+    profile: '&#128100;',
   });
 }

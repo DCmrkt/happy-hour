@@ -13,9 +13,9 @@ export class App {
 
   readonly stats = [
     { icon: 'timer', value: '36h', label: "donate quest'anno", tone: 'blue' },
+    { icon: 'medal', value: '6', label: 'badge conquistati', tone: 'amber' },
     { icon: 'check', value: '8', label: 'turni completati', tone: 'mint' },
-    { icon: 'medal', value: 'Silver', label: 'livello volontario', tone: 'lavender' },
-    { icon: 'star', value: '120', label: 'punti guadagnati', tone: 'amber' },
+    { icon: 'star', value: '120', label: 'punti guadagnati', tone: 'lavender' },
   ];
 
   readonly calendarDays = [

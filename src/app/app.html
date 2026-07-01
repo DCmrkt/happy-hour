@@ -10,7 +10,7 @@
     <h1>Area volontario completa</h1>
     <p>
       Flussi interattivi per turni, ore donate, messaggi, attestati e profilo. Questa versione
-      mantiene l'identita blu dell'app Angular.
+      riprende l'identita rossa, azzurra e crema del prototipo client.
     </p>
     <div class="desktop-nav">
       @for (tab of tabs; track tab.id) {
@@ -30,7 +30,10 @@
             <img class="brand-mark small" src="logo-icon.png" alt="" />
             <span><b>Happy Hour</b><small>Fondazione Aurora</small></span>
           </button>
-          <button type="button" class="pill" (click)="go('profile')">Profilo</button>
+          <button type="button" class="org-pill" (click)="go('profile')" aria-label="Profilo organizzazione">
+            <span>A</span>
+            <b>Fondazione Aurora</b>
+          </button>
         </header>
       }
 
@@ -56,9 +59,9 @@
         @case ('home') {
           <section class="screen">
             <div class="hero card">
-              <div class="avatar">FR</div>
+              <div class="avatar">🙂</div>
               <div>
-                <h2>Ciao Francesca!</h2>
+                <h2>Ciao Francesca</h2>
                 <p>Grazie per il tempo che stai donando.</p>
               </div>
             </div>
@@ -76,12 +79,12 @@
             <article class="card highlight">
               <div class="card-title">
                 <div>
-                  <h3>Prossimo turno</h3>
-                  <span>18 maggio, 16:00-20:00</span>
+                  <h3>Calendario turni</h3>
+                  <span>Maggio, prossimi impegni</span>
                 </div>
-                <em>Da confermare</em>
+                <button class="small-link" type="button" (click)="go('calendar')">Vedi tutto</button>
               </div>
-              <p><b>Evento in piazza</b><br />Info point presso Piazza Centrale.</p>
+              <p><b>Prossimo turno</b><br />18 maggio, 16:00-20:00 · Info point presso Piazza Centrale.</p>
               <div class="button-row">
                 <button class="btn primary" type="button" (click)="go('shiftDetail')">Apri turno</button>
                 <button class="btn secondary" type="button" (click)="go('calendar')">Calendario</button>
