@@ -1,5 +1,5 @@
 <main class="app-shell" aria-label="Happy Hour">
-  <section class="app-main" [class.login-mode]="screen === 'login'">
+  <section class="app-main" [class.login-mode]="screen === 'login'" [class.home-view]="screen === 'home'">
     <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
     <div class="app-scroll">
       @if (screen !== 'login') {
@@ -47,18 +47,26 @@
         }
 
         @case ('home') {
-          <section class="screen">
-            <article class="hero-card">
-              <div class="hello">
-                <div class="avatar">🙂</div>
-                <div>
-                  <h2>Ciao Francesca</h2>
-                  <p>Grazie per il tempo che stai donando.</p>
-                </div>
-              </div>
-            </article>
+          <section class="screen home-screen">
+            <div class="home-blobs" aria-hidden="true">
+              <span class="blob blob-a"></span>
+              <span class="blob blob-b"></span>
+              <span class="blob blob-c"></span>
+              <span class="blob blob-d"></span>
+            </div>
 
-            <div class="metrics">
+            <div class="home-content">
+              <article class="hero-card">
+                <div class="hello">
+                  <img class="hero-logo" src="logo-icon.png" alt="" />
+                  <div>
+                    <h2>Ciao Francesca</h2>
+                    <p>Grazie per il tempo che stai donando.</p>
+                  </div>
+                </div>
+              </article>
+
+              <div class="metrics">
               <button class="metric-card" type="button" (click)="go('hours')">
                 <div class="metric-icon">⏱</div>
                 <b>36h</b>
@@ -145,6 +153,7 @@
               <p class="small">La richiesta di scambio per il 26 maggio è in attesa di approvazione.</p>
               <button class="btn secondary" type="button" (click)="go('swapStatus')">Vedi stato</button>
             </article>
+            </div>
           </section>
         }
 
