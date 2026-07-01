@@ -50,6 +50,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "rosso",
+                "output": "/rosso"
               }
             ],
             "styles": [
@@ -107,6 +112,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "rosso",
+                "output": "/rosso"
               }
             ],
             "styles": [
