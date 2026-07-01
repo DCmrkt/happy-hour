@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Happy Hour</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      const path = window.location.pathname;
+
+      if (path === '/happy-hour/rosso') {
+        window.location.replace('/happy-hour/rosso/');
+      } else if (path.startsWith('/happy-hour/')) {
+        window.location.replace('/happy-hour/');
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to Happy Hour...</p>
+  </body>
+</html>
