@@ -39,7 +39,7 @@
   height: 46px;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 8px 18px rgba(243, 80, 55, 0.16));
+  background: transparent;
 }
 
 .brand-mark.small {
@@ -1137,16 +1137,15 @@ button.cal-day {
 }
 
 .login-brand-logo {
-  width: min(128px, 40vw);
+  width: min(280px, 88%);
   height: auto;
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto;
+  background: transparent;
 }
 
 .full-logo strong {
-  font-size: 28px;
-  color: var(--coral-dark);
-  letter-spacing: -0.05em;
+  display: none;
 }
 
 .login-card {
