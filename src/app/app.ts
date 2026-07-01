@@ -214,7 +214,7 @@ export class App {
 
   screenTitle(): string {
     const titles: Record<ScreenId, string> = {
-      login: 'Benvenuta',
+      login: 'Benvenuto',
       home: 'Happy Hour',
       calendar: 'Calendario turni',
       shiftDetail: 'Dettaglio turno',
