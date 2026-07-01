@@ -1,14 +1,376 @@
-<main class="phone-shell" aria-label="Happy Hour dashboard">
-  <app-header />
-  <app-hero-card />
-  <app-stats-grid />
-
-  <section class="content-grid">
-    <app-calendar-card />
-    <app-upcoming-shifts />
+<main class="app-shell" aria-label="Happy Hour">
+  <section class="side-panel">
+    <div class="brand-lockup">
+      <span class="brand-mark">H</span>
+      <div>
+        <strong>Happy Hour</strong>
+        <span>Webapp volontari</span>
+      </div>
+    </div>
+    <h1>Area volontario completa</h1>
+    <p>
+      Flussi interattivi per turni, ore donate, messaggi, attestati e profilo. Questa versione
+      mantiene l'identita blu dell'app Angular.
+    </p>
+    <div class="desktop-nav">
+      @for (tab of tabs; track tab.id) {
+        <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
+          <app-icon [name]="tab.icon" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+          <span>{{ tab.label }}</span>
+        </button>
+      }
+    </div>
   </section>
 
-  <app-notice-banner />
-  <app-action-bar />
-  <app-bottom-nav />
+  <section class="phone-frame">
+    <div class="statusbar"><span>9:41</span><span>5G</span></div>
+    <div class="org-badge"><span>A</span> Fondazione Aurora</div>
+
+    <div class="app-scroll">
+      @if (screen !== 'login') {
+        <header class="app-header">
+          <button type="button" class="brand-button" (click)="go('home')" aria-label="Home">
+            <span class="brand-mark small">H</span>
+            <span><b>Happy Hour</b><small>Fondazione Aurora</small></span>
+          </button>
+          <button type="button" class="pill" (click)="go('profile')">Profilo</button>
+        </header>
+      }
+
+      @switch (screen) {
+        @case ('login') {
+          <section class="screen login">
+            <div class="login-logo">
+              <span class="brand-mark big">H</span>
+              <strong>Happy Hour</strong>
+              <span>Accedi alla tua area volontario</span>
+            </div>
+            <label>Email</label>
+            <input type="email" value="francesca.rossi@email.it" aria-label="Email" />
+            <button class="btn primary" type="button" (click)="showToast('Link di accesso inviato via email.')">
+              Ricevi link di accesso
+            </button>
+            <button class="btn secondary" type="button" (click)="go('home')">Accedi alla demo</button>
+            @if (toast) {
+              <p class="toast">{{ toast }}</p>
+            }
+          </section>
+        }
+
+        @case ('home') {
+          <section class="screen">
+            <div class="hero card">
+              <div class="avatar">FR</div>
+              <div>
+                <h2>Ciao Francesca!</h2>
+                <p>Grazie per il tempo che stai donando.</p>
+              </div>
+            </div>
+
+            <div class="stats">
+              @for (stat of stats; track stat.label) {
+                <article class="stat card">
+                  <app-icon [name]="stat.icon" [tone]="$any(stat.tone)" />
+                  <b>{{ stat.value }}</b>
+                  <span>{{ stat.label }}</span>
+                </article>
+              }
+            </div>
+
+            <article class="card highlight">
+              <div class="card-title">
+                <div>
+                  <h3>Prossimo turno</h3>
+                  <span>18 maggio, 16:00-20:00</span>
+                </div>
+                <em>Da confermare</em>
+              </div>
+              <p><b>Evento in piazza</b><br />Info point presso Piazza Centrale.</p>
+              <div class="button-row">
+                <button class="btn primary" type="button" (click)="go('shiftDetail')">Apri turno</button>
+                <button class="btn secondary" type="button" (click)="go('calendar')">Calendario</button>
+              </div>
+            </article>
+
+            <article class="notice card" (click)="go('messageDetail')" tabindex="0">
+              <app-icon name="megaphone" tone="amber" />
+              <div>
+                <b>Messaggio urgente</b>
+                <span>Brief operativo aggiornato per il turno di sabato.</span>
+              </div>
+            </article>
+
+            <div class="button-row">
+              <button class="btn secondary" type="button" (click)="go('achievements')">Traguardi</button>
+              <button class="btn secondary" type="button" (click)="go('hours')">Ore donate</button>
+            </div>
+          </section>
+        }
+
+        @case ('calendar') {
+          <section class="screen">
+            <div class="section-head">
+              <div>
+                <h2>Calendario turni</h2>
+                <p>Maggio, prossimi impegni</p>
+              </div>
+              <button class="pill" type="button" (click)="go('home')">Home</button>
+            </div>
+            <div class="calendar card">
+              <div class="weekdays">
+                @for (day of ['L', 'M', 'M', 'G', 'V', 'S', 'D']; track $index) {
+                  <span>{{ day }}</span>
+                }
+              </div>
+              <div class="days">
+                @for (day of calendarDays; track $index) {
+                  <button
+                    type="button"
+                    [class.muted]="day.muted"
+                    [class.today]="day.today"
+                    [class.shift]="day.note"
+                    [class]="day.tone || ''"
+                    (click)="day.note ? go('shiftDetail') : null"
+                  >
+                    <b>{{ day.n }}</b>
+                    @if (day.note) {
+                      <small>{{ day.note }}</small>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+            <div class="list">
+              @for (shift of shifts; track shift.day) {
+                <button class="list-item" type="button" (click)="go('shiftDetail')">
+                  <time>{{ shift.day }}</time>
+                  <span><b>{{ shift.title }}</b><small>{{ shift.area }} · {{ shift.hours }}</small></span>
+                  <em>{{ shift.status }}</em>
+                </button>
+              }
+            </div>
+          </section>
+        }
+
+        @case ('shiftDetail') {
+          <section class="screen">
+            <button class="back" type="button" (click)="go('calendar')">Indietro</button>
+            <article class="card detail">
+              <em>Da confermare</em>
+              <h2>Evento in piazza</h2>
+              <p>Sabato 18 maggio, 16:00-20:00</p>
+              <div class="info-grid">
+                <span><b>Luogo</b>Piazza Centrale 4</span>
+                <span><b>Ruolo</b>Info point</span>
+                <span><b>Referente</b>Marco Bianchi</span>
+                <span><b>Contatto</b>WhatsApp disponibile</span>
+              </div>
+              <div class="button-row stack">
+                <button class="btn primary" type="button" (click)="go('confirmPresence')">Confermo la presenza</button>
+                <button class="btn secondary" type="button" (click)="go('absence')">Segnala problema</button>
+                <button class="btn secondary" type="button" (click)="go('swapStart')">Chiedi scambio turno</button>
+              </div>
+            </article>
+          </section>
+        }
+
+        @case ('confirmPresence') {
+          <section class="screen">
+            <article class="card center">
+              <app-icon name="check" tone="mint" />
+              <h2>Conferma presenza</h2>
+              <p>Confermi la partecipazione al turno Evento in piazza?</p>
+              <button class="btn primary" type="button" (click)="confirmPresence()">Si, confermo</button>
+              @if (toast) {
+                <p class="toast good">{{ toast }}</p>
+              }
+            </article>
+          </section>
+        }
+
+        @case ('absence') {
+          <section class="screen">
+            <button class="back" type="button" (click)="go('shiftDetail')">Indietro</button>
+            <article class="card">
+              <h2>Segnala assenza o problema</h2>
+              <label>Motivo</label>
+              <select aria-label="Motivo"><option>Imprevisto personale</option><option>Malattia</option></select>
+              <label>Note</label>
+              <textarea aria-label="Note">Avviso il referente appena possibile.</textarea>
+              <button class="btn primary" type="button" (click)="showToast('Segnalazione inviata al referente.')">
+                Invia segnalazione
+              </button>
+              @if (toast) {
+                <p class="toast">{{ toast }}</p>
+              }
+            </article>
+          </section>
+        }
+
+        @case ('swapStart') {
+          <section class="screen">
+            <article class="card">
+              <h2>Scambio turno</h2>
+              <p>Cerchiamo volontari compatibili per ruolo, sede e disponibilita.</p>
+              <div class="chips"><span>Info point</span><span>Piazza Centrale</span><span>Sabato</span></div>
+              <button class="btn primary" type="button" (click)="go('eligibleVolunteers')">Cerca sostituti compatibili</button>
+            </article>
+          </section>
+        }
+
+        @case ('eligibleVolunteers') {
+          <section class="screen">
+            <h2>Volontari compatibili</h2>
+            <div class="list">
+              @for (person of ['Giulia Verdi', 'Paolo Neri', 'Elena Costa']; track person) {
+                <button class="person card" type="button" (click)="showToast('Proposta inviata a ' + person + '.')">
+                  <span class="avatar mini">{{ person[0] }}</span>
+                  <span><b>{{ person }}</b><small>Disponibile · stesso ruolo</small></span>
+                  <em>Proponi</em>
+                </button>
+              }
+            </div>
+            @if (toast) {
+              <p class="toast">{{ toast }}</p>
+              <button class="btn primary" type="button" (click)="go('swapStatus')">Vedi stato richiesta</button>
+            }
+          </section>
+        }
+
+        @case ('swapStatus') {
+          <section class="screen">
+            <article class="card">
+              <h2>Stato richiesta scambio</h2>
+              <div class="timeline">
+                <span class="done"><b>Proposta inviata</b><small>Oggi, 10:20</small></span>
+                <span class="current"><b>In attesa sostituto</b><small>Notifica consegnata</small></span>
+                <span><b>Approvazione referente</b><small>Passaggio successivo</small></span>
+              </div>
+              <button class="btn primary" type="button" (click)="go('home')">Torna alla home</button>
+            </article>
+          </section>
+        }
+
+        @case ('hours') {
+          <section class="screen">
+            <div class="section-head">
+              <div><h2>Ore donate</h2><p>36 ore validate nel 2026</p></div>
+              <button class="pill" type="button" (click)="go('achievements')">Attestati</button>
+            </div>
+            <article class="card">
+              <div class="progress"><span style="width: 72%"></span></div>
+              <p>Mancano 14 ore al prossimo traguardo.</p>
+            </article>
+            <div class="list">
+              @for (shift of shifts; track shift.day) {
+                <div class="list-item">
+                  <time>{{ shift.day }}</time>
+                  <span><b>{{ shift.title }}</b><small>{{ shift.status }}</small></span>
+                  <em>4h</em>
+                </div>
+              }
+            </div>
+            <button class="btn secondary" type="button" (click)="showToast('Richiesta di correzione aperta.')">Segnala una correzione</button>
+            @if (toast) {
+              <p class="toast">{{ toast }}</p>
+            }
+          </section>
+        }
+
+        @case ('messages') {
+          <section class="screen">
+            <h2>Messaggi</h2>
+            <div class="list">
+              <button class="list-item unread" type="button" (click)="go('messageDetail')">
+                <app-icon name="megaphone" tone="amber" />
+                <span><b>Brief operativo aggiornato</b><small>Urgente · oggi</small></span>
+                <em>Apri</em>
+              </button>
+              <button class="list-item" type="button">
+                <app-icon name="star" tone="mint" />
+                <span><b>Grazie per il turno svolto</b><small>Letto</small></span>
+              </button>
+            </div>
+          </section>
+        }
+
+        @case ('messageDetail') {
+          <section class="screen">
+            <button class="back" type="button" (click)="go('messages')">Indietro</button>
+            <article class="card">
+              <em>Urgente</em>
+              <h2>Brief operativo aggiornato</h2>
+              <p>Per il turno di sabato usa l'ingresso laterale e presentati 10 minuti prima al referente.</p>
+              <button class="btn primary" type="button" (click)="showToast('Presa visione registrata.')">Ho letto</button>
+              @if (toast) {
+                <p class="toast good">{{ toast }}</p>
+              }
+            </article>
+          </section>
+        }
+
+        @case ('achievements') {
+          <section class="screen">
+            <h2>Traguardi e attestati</h2>
+            <article class="card achievement">
+              <app-icon name="medal" tone="lavender" />
+              <h3>Livello Silver</h3>
+              <p>8 turni completati, 36 ore validate.</p>
+              <button class="btn primary" type="button" (click)="downloadCertificate()">Scarica attestato</button>
+            </article>
+            @if (toast) {
+              <p class="toast">{{ toast }}</p>
+            }
+          </section>
+        }
+
+        @case ('profile') {
+          <section class="screen">
+            <h2>Profilo</h2>
+            <article class="card">
+              <label>Nome</label>
+              <input value="Francesca Rossi" aria-label="Nome" />
+              <label>Telefono</label>
+              <input value="+39 333 1234567" aria-label="Telefono" />
+              <label>Disponibilita</label>
+              <div class="chips"><span>Sabato</span><span>Pomeriggio</span><span>Eventi</span></div>
+              <button class="btn primary" type="button" (click)="showToast('Profilo salvato.')">Salva anagrafica e preferenze</button>
+              <button class="btn secondary" type="button" (click)="go('uploadDocument')">Carica documento</button>
+              @if (toast) {
+                <p class="toast good">{{ toast }}</p>
+              }
+            </article>
+          </section>
+        }
+
+        @case ('uploadDocument') {
+          <section class="screen">
+            <button class="back" type="button" (click)="go('profile')">Indietro</button>
+            <article class="card">
+              <h2>Carica documenti</h2>
+              <p>Documento identita richiesto. Stato attuale: da aggiornare.</p>
+              <label>Tipo documento</label>
+              <select aria-label="Tipo documento"><option>Documento identita</option><option>Patente</option></select>
+              <input type="file" aria-label="File documento" />
+              <button class="btn primary" type="button" (click)="showToast('Documento caricato e inviato in verifica.')">Carica e invia</button>
+              @if (toast) {
+                <p class="toast good">{{ toast }}</p>
+              }
+            </article>
+          </section>
+        }
+      }
+    </div>
+
+    @if (screen !== 'login') {
+      <nav class="bottom-nav" aria-label="Navigazione principale">
+        @for (tab of tabs; track tab.id) {
+          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
+            <app-icon [name]="tab.icon" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    }
+  </section>
 </main>
