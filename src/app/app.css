@@ -40,27 +40,21 @@
 .brand-mark {
   width: 44px;
   height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: linear-gradient(145deg, var(--blue), #7cc8ff);
-  color: white;
-  font-weight: 900;
-  box-shadow: 0 12px 28px rgba(32, 162, 255, 0.22);
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(243, 80, 55, 0.16));
 }
 
 .brand-mark.small {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
 }
 
-.brand-mark.big {
-  width: 104px;
-  height: 104px;
-  margin: 0 auto 14px;
-  border-radius: 28px;
-  font-size: 42px;
+.login-brand-logo {
+  width: min(260px, 86%);
+  height: auto;
+  display: block;
+  margin: 0 auto 12px;
 }
 
 h1,

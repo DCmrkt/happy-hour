@@ -1,7 +1,7 @@
 <main class="app-shell" aria-label="Happy Hour">
   <section class="side-panel">
     <div class="brand-lockup">
-      <span class="brand-mark">H</span>
+      <img class="brand-mark" src="logo-icon.png" alt="" />
       <div>
         <strong>Happy Hour</strong>
         <span>Webapp volontari</span>
@@ -27,7 +27,7 @@
       @if (screen !== 'login') {
         <header class="app-header">
           <button type="button" class="brand-button" (click)="go('home')" aria-label="Home">
-            <span class="brand-mark small">H</span>
+            <img class="brand-mark small" src="logo-icon.png" alt="" />
             <span><b>Happy Hour</b><small>Fondazione Aurora</small></span>
           </button>
           <button type="button" class="pill" (click)="go('profile')">Profilo</button>
@@ -38,8 +38,7 @@
         @case ('login') {
           <section class="screen login">
             <div class="login-logo">
-              <span class="brand-mark big">H</span>
-              <strong>Happy Hour</strong>
+              <img class="login-brand-logo" src="logo.png" alt="Happy Hour" />
               <span>Accedi alla tua area volontario</span>
             </div>
             <label>Email</label>
