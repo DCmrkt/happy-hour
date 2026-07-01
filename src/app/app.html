@@ -1,4 +1,4 @@
-<main class="app-shell" [class.home-view]="screen === 'home'" [class.login-view]="screen === 'login'" aria-label="Happy Hour">
+<main class="app-shell" [class.app-view]="screen !== 'login'" [class.login-view]="screen === 'login'" aria-label="Happy Hour">
   <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
 
   <div class="home-blobs" aria-hidden="true">
@@ -28,7 +28,7 @@
     </aside>
   }
 
-  <section class="app-main" [class.login-mode]="screen === 'login'" [class.home-view]="screen === 'home'">
+  <section class="app-main" [class.login-mode]="screen === 'login'" [class.app-view]="screen !== 'login'">
     <div class="app-scroll">
       @if (screen !== 'login') {
         <header class="app-header">
