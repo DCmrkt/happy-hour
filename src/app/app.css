@@ -1,20 +1,21 @@
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
   gap: 0;
-  width: min(100%, 1440px);
+  width: min(100%, 1320px);
   margin: 0 auto;
+  align-items: start;
 }
 
 .side-panel {
   position: sticky;
   top: 0;
-  align-self: start;
+  align-self: stretch;
   min-height: 100vh;
   padding: 28px 20px;
-  border-left: 1px solid var(--line);
-  border-right: 0;
+  border-right: 1px solid var(--line);
+  border-left: 0;
   background: rgba(255, 255, 255, 0.76);
   backdrop-filter: blur(10px);
 }
@@ -112,20 +113,22 @@
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: clamp(24px, 5vw, 48px) 20px;
+  padding: clamp(32px, 6vw, 72px) 20px;
 }
 
 .app-scroll:has(.login-screen) {
-  max-width: 560px;
+  max-width: 440px;
   margin: 0 auto;
-  padding-top: clamp(24px, 8vh, 80px);
+  padding: 0;
 }
 
 .app-scroll {
   flex: 1;
   overflow: visible;
-  padding: 24px clamp(24px, 4vw, 56px) 32px;
-  max-width: min(960px, 100%);
+  width: 100%;
+  max-width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 24px clamp(20px, 3vw, 48px) 36px;
 }
 
 .app-scroll:has(.home-screen) {
@@ -1260,10 +1263,10 @@ button.cal-day {
 }
 
 .login-screen {
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .login-inner {
@@ -1298,11 +1301,6 @@ button.cal-day {
 .login-card {
   padding: 22px;
   border-radius: 30px;
-}
-
-.login-footer {
-  text-align: center;
-  margin-top: 16px;
 }
 
 .bottom-nav {

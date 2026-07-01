@@ -1,5 +1,26 @@
 <main class="app-shell" aria-label="Happy Hour">
   <div #confettiLayer class="confetti-layer" aria-hidden="true"></div>
+
+  @if (screen !== 'login') {
+    <aside class="side-panel" aria-label="Navigazione desktop">
+      <div class="brand-lockup">
+        <img class="brand-mark" src="logo-icon.png" alt="Happy Hour" />
+        <div>
+          <strong>Happy Hour</strong>
+          <span>Fondazione Aurora</span>
+        </div>
+      </div>
+      <nav class="desktop-nav">
+        @for (tab of tabs; track tab.id) {
+          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
+            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+    </aside>
+  }
+
   <section class="app-main" [class.login-mode]="screen === 'login'" [class.home-view]="screen === 'home'">
     <div class="app-scroll">
       @if (screen !== 'login') {
@@ -36,13 +57,11 @@
                   Ricevi link di accesso
                 </button>
                 <button class="btn secondary" type="button" (click)="go('home')">Accedi</button>
-                <p class="mini">Accesso sicuro via magic link. I tuoi dati restano gestiti dall'organizzazione.</p>
                 @if (toast) {
                   <p class="toast" [class.good]="toastTone === 'good'" [class.warn]="toastTone === 'warn'">{{ toast }}</p>
                 }
               </article>
             </div>
-            <p class="mini login-footer">Fondazione Aurora</p>
           </section>
         }
 
@@ -777,24 +796,4 @@
       </nav>
     }
   </section>
-
-  @if (screen !== 'login') {
-    <aside class="side-panel" aria-label="Navigazione desktop">
-      <div class="brand-lockup">
-        <img class="brand-mark" src="logo-icon.png" alt="Happy Hour" />
-        <div>
-          <strong>Happy Hour</strong>
-          <span>Fondazione Aurora</span>
-        </div>
-      </div>
-      <nav class="desktop-nav">
-        @for (tab of tabs; track tab.id) {
-          <button type="button" [class.active]="activeTab() === tab.id" (click)="go(tab.target)">
-            <app-icon [name]="tab.icon" variant="nav" [tone]="activeTab() === tab.id ? 'blue' : 'lavender'" />
-            <span>{{ tab.label }}</span>
-          </button>
-        }
-      </nav>
-    </aside>
-  }
 </main>
